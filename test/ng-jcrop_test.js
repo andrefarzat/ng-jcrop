@@ -161,6 +161,18 @@ describe('ng-jcrop', function(){
                 expect(scope.init).toHaveBeenCalled();
             }));
 
+
+            it('should call init when ngJcrop or thumbnail value changes', inject(function($compile){
+                spyOn(scope, 'init').andCallThrough();
+                el = $compile('<div ng-jcrop></div>')(scope);
+
+                expect(scope.init).not.toHaveBeenCalled();
+
+                scope.ngJcrop = 2;
+                scope.$apply();
+                expect(scope.init).toHaveBeenCalled();
+            }));
+
         });
 
     });
@@ -206,14 +218,17 @@ describe('ng-jcrop', function(){
             expect(fn).toThrow(err);
         }));
 
-        it('should trigger `onFileInputChange`', function(){
-            spyOn(scope, 'onFileInputChange').andCallThrough();
+        xit('should set a new image', inject(function($rootScope){
+            var obj = {'ohMy': angular.identity};
+            spyOn(obj, 'ohMy');
+            $rootScope.$on('JcropChangeSrc', function(){ obj.ohMy(); });
 
-            el.attr('src', "/base/test/13x13.png");
-            el.triggerHandler('change');
+            // doesn't matter the type of the file, what matters are the events triggered
+            var image = new Blob(['<a id="a"><b id="b">hey!</b></a>'], {type: 'text/html'});
+            scope.setImage(image);
 
             expect(scope.onFileInputChange).toHaveBeenCalled();
-        });
+        }));
     });
 
 });

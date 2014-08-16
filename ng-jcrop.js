@@ -50,9 +50,8 @@
             throw new Error('ngJcropInput directive must be placed with an input[type="file"]');
         }
 
-        $scope.onFileInputChange = function(ev){
-            var image = ev.currentTarget.files[0],
-                reader = new FileReader();
+        $scope.setImage = function(image){
+            var reader = new FileReader();
 
             reader.onload = function(ev){
                 $rootScope.$broadcast('JcropChangeSrc', ev.target.result);
@@ -61,7 +60,10 @@
             reader.readAsDataURL(image);
         };
 
-        $element.on('change', function(ev){ $scope.onFileInputChange(ev); });
+        $element.on('change', function(ev){
+            var image = ev.currentTarget.files[0];
+            $scope.setImage(image);
+        });
 
     }])
 
