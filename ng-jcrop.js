@@ -7,7 +7,7 @@
             throw new Error("jQuery isn't included");
         }
 
-        if( !jQuery.Jcrop ){
+        if( !$window.jQuery.Jcrop ){
             throw new Error("Jcrop isn't included");
         }
     }])
