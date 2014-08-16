@@ -93,12 +93,6 @@
         $scope.jcrop = null;
 
         /**
-         * The selection. It must be [w, h, x, y]
-         * @type {Array}
-         */
-        $scope.selection = angular.isArray($scope.selection) ? $scope.selection : [];
-
-        /**
          * Updates the `imgStyle` with width and height
          * @param  {Image} img
          */
@@ -124,12 +118,6 @@
          * Updates the preview regarding the coords form jCrop
          */
         $scope.showPreview = function(coords){
-            // To avoid large digest ciclying
-            $scope.selection[0] = coords.x;
-            $scope.selection[1] = coords.y;
-            $scope.selection[2] = coords.x2;
-            $scope.selection[3] = coords.y2;
-
             if( !$scope.thumbnail ){
                 return;
             }
