@@ -164,6 +164,11 @@
             scope.init(newValue);
         });
 
+        $scope.$watch('thumbnail', function(newValue, oldValue, scope){
+            var src = scope.mainImg.attr('src');
+            scope.init(src);
+        });
+
     }]);
 
 
