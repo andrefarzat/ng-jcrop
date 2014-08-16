@@ -3,6 +3,7 @@ ng-jcrop
 
 Angular directive to jCrop jQuery plugin
 [![Build Status](https://travis-ci.org/andrefarzat/ng-jcrop.svg?branch=master)](https://travis-ci.org/andrefarzat/ng-jcrop)
+[![Coverage Status](https://coveralls.io/repos/andrefarzat/ng-jcrop/badge.png)](https://coveralls.io/r/andrefarzat/ng-jcrop)
 
 
 ### Installing
