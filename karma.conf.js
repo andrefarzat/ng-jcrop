@@ -69,7 +69,7 @@ module.exports = function(config) {
     singleRun: false,
 
     coverageReporter: {
-        type: 'lcov',
+        type: 'lcovonly',
         dir: 'coverage/'
     }
   });
