@@ -16,7 +16,7 @@
 
         return {
             restrict: 'A',
-            scope: {ngJcrop: '=', thumbnail: '='},
+            scope: {ngJcrop: '=', thumbnail: '=', selection: '='},
             template: ngJcropTemplate,
             controller: 'JcropController'
         };
@@ -93,6 +93,12 @@
         $scope.jcrop = null;
 
         /**
+         * The selection. It must be [w, h, x, y]
+         * @type {Array}
+         */
+        $scope.selection = angular.isArray($scope.selection) ? $scope.selection : [];
+
+        /**
          * Updates the `imgStyle` with width and height
          * @param  {Image} img
          */
@@ -118,6 +124,12 @@
          * Updates the preview regarding the coords form jCrop
          */
         $scope.showPreview = function(coords){
+            // To avoid large digest ciclying
+            $scope.selection[0] = coords.x;
+            $scope.selection[1] = coords.y;
+            $scope.selection[2] = coords.x2;
+            $scope.selection[3] = coords.y2;
+
             if( !$scope.thumbnail ){
                 return;
             }
@@ -145,7 +157,8 @@
             var config = {
                 onChange: $scope.showPreview,
                 onSelect: $scope.showPreview,
-                aspectRatio: 1
+                aspectRatio: 1,
+                setSelect: $scope.selection
             };
 
             $scope.jcrop = jQuery.Jcrop($scope.mainImg, config);
@@ -200,6 +213,12 @@
         $scope.$watch('thumbnail', function(newValue, oldValue, scope){
             var src = scope.mainImg.attr('src');
             scope.init(src);
+        });
+
+        $scope.$watch('selection', function(newValue, oldValue, scope){
+            if( scope.jcrop ){
+                scope.jcrop.setSelect(scope.selection);
+            }
         });
 
     }]);
