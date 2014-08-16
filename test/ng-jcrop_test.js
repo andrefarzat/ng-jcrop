@@ -155,8 +155,65 @@ describe('ng-jcrop', function(){
                 expect(scope.previewImg.attr('src')).toBe("/base/test/13x13.png");
             });
 
+            it('should call init when triggering JcropChangeSrc event', inject(function($rootScope){
+                spyOn(scope, 'init');
+                $rootScope.$broadcast('JcropChangeSrc', "/base/test/13x13.png");
+                expect(scope.init).toHaveBeenCalled();
+            }));
+
         });
 
+    });
+
+    describe('ng-jcrop-input directive', function(){
+
+        it('should be ok', inject(function($compile){
+            var div = $compile('<div ng-jcrop-input></div>');
+        }));
+
+    });
+
+    describe('JcropInputController', function(){
+        var ctrl, scope, el, getController;
+
+        beforeEach(inject(function($controller, $rootScope, $compile){
+            scope = $rootScope.$new();
+            el = $compile('<input type="file" ng-jcrop-input />')(scope);
+
+            getController = function(params){
+                params = params || {};
+                params.$scope = params.$scope || scope;
+                params.$element = params.$element || el;
+                return $controller('JcropInputController', params);
+            };
+
+            ctrl = getController();
+        }));
+
+        it('should fail if it isnt an input[type="file"]', inject(function($controller, $compile){
+            var err = new Error('ngJcropInput directive must be placed with an input[type="file"]');
+
+            var fn = function(){
+                el = $compile('<div ng-jcrop-input></div>')(scope);
+            };
+
+            expect(fn).toThrow(err);
+
+            fn = function(){
+                el = $compile('<input type="text" ng-jcrop-input />')(scope);
+            };
+
+            expect(fn).toThrow(err);
+        }));
+
+        it('should trigger `onFileInputChange`', function(){
+            spyOn(scope, 'onFileInputChange').andCallThrough();
+
+            el.attr('src', "/base/test/13x13.png");
+            el.triggerHandler('change');
+
+            expect(scope.onFileInputChange).toHaveBeenCalled();
+        });
     });
 
 });

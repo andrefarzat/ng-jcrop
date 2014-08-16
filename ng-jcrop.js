@@ -61,7 +61,7 @@
             reader.readAsDataURL(image);
         };
 
-        $element.on('change', $scope.onFileInputChange);
+        $element.on('change', function(ev){ $scope.onFileInputChange(ev); });
 
     }])
 
