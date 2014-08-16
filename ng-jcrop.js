@@ -2,6 +2,16 @@
 
     angular.module('ngJcrop', [])
 
+    .run(['$window', function($window){
+        if( !$window.jQuery ){
+            throw new Error("jQuery isn't included");
+        }
+
+        if( !jQuery.Jcrop ){
+            throw new Error("Jcrop isn't included");
+        }
+    }])
+
     .directive('ngJcrop', ['ngJcropTemplate', function(ngJcropTemplate){
 
         return {
