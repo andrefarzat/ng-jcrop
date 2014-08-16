@@ -20,7 +20,10 @@ module.exports = function(config) {
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'ng-jcrop.js',
-      'ng-jcrop_test.js'
+      'test/ng-jcrop_test.js',
+      {pattern: 'test/*.gif', watched: false, included: false, served: true},
+      {pattern: 'test/*.png', watched: false, included: false, served: true},
+      {pattern: 'test/*.jpg', watched: false, included: false, served: true}
     ],
 
 
