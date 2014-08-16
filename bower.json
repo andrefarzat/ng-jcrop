@@ -24,6 +24,8 @@
   ],
   "dependencies": {
     "jquery": "*",
-    "angular": "*"
+    "angular": "*",
+    "jcrop": "~0.9.12",
+    "angular-mocks": "*"
   }
 }

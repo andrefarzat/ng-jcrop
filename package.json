@@ -1,0 +1,27 @@
+{
+  "name": "ng-jcrop",
+  "version": "0.0.0",
+  "description": "ng-jcrop ========",
+  "main": "ng-jcrop.js",
+  "dependencies": {
+    "karma": "~0.12.21"
+  },
+  "devDependencies": {
+    "karma": "~0.12.21",
+    "karma-chrome-launcher": "~0.1.4",
+    "karma-jasmine": "~0.1.5"
+  },
+  "scripts": {
+    "test": "./node_modules/karma/bin/karma start --single-run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/andrefarzat/ng-jcrop.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/andrefarzat/ng-jcrop/issues"
+  },
+  "homepage": "https://github.com/andrefarzat/ng-jcrop"
+}
