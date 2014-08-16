@@ -6,4 +6,4 @@ before_script:
  - ./node_modules/bower/bin/bower install
 
 script:
- - ./node_modules/karma/bin/karma start --single-run --browsers PhantomJS --reporters progress coverage coveralls | ./node_modules/coveralls/bin/coveralls.js
+ - ./node_modules/karma/bin/karma start karma.travis.conf.js

@@ -17,7 +17,7 @@
     "karma-coveralls": "~0.1.4"
   },
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start --single-run --browsers PhantomJS"
+    "test": "./node_modules/karma/bin/karma start"
   },
   "repository": {
     "type": "git",
