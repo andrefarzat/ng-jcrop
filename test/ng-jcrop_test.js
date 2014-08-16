@@ -41,15 +41,20 @@ describe('ng-jcrop', function(){
 
 
     describe('JcropController', function(){
-        var ctrl, scope, el;
+        var ctrl, scope, el, getController;
 
         beforeEach(inject(function($controller, $rootScope, $compile){
             scope = $rootScope.$new();
-            el = $compile('<div ng-jcrop></div>');
-            ctrl = $controller('JcropController', {
-                $scope: scope,
-                $element: el
-            });
+            el = $compile('<div ng-jcrop></div>')(scope);
+
+            getController = function(params){
+                params = params || {};
+                params.$scope = params.$scope || scope;
+                params.$element = params.$element || el;
+                return $controller('JcropController', params);
+            };
+
+            ctrl = getController();
         }));
 
         it('updateCurrentSizes', function(){
@@ -80,6 +85,76 @@ describe('ng-jcrop', function(){
             });
 
             waits(500);
+        });
+
+
+        describe('showPreview', function(){
+
+            beforeEach(function(){
+                scope.previewImg = angular.element('<img>');
+            });
+
+            it('should do nothing if thumbnail = false', function(){
+                scope.previewImg.css('width', '10000px');
+                scope.showPreview();
+                expect(scope.previewImg.css('width')).toBe('10000px');
+            });
+
+            it('showPreview', function(){
+                scope.thumbnail = true;
+
+                var coords = {x: 10, y: 10, w: 10, h: 10},
+                    rx = 100 / coords.w,
+                    ry = 100 / coords.h;
+
+                scope.showPreview(coords);
+
+                var expectedValues = {
+                    width: Math.round(rx * scope.imgStyle.width) + 'px',
+                    maxWidth: Math.round(rx * scope.imgStyle.width) + 'px',
+                    height: Math.round(ry * scope.imgStyle.height) + 'px',
+                    maxHeight: Math.round(ry * scope.imgStyle.height) + 'px',
+                    marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+                    marginTop: '-' + Math.round(ry * coords.y) + 'px'
+                };
+
+                angular.forEach(expectedValues, function(value, key){
+                    expect(scope.previewImg.css(key)).toBe(value);
+                });
+
+            });
+
+        });
+
+        describe('destroy', function(){
+
+            it('simple execution', function(){
+                scope.mainImg = angular.element('<img>');
+                scope.jcrop = {'destroy': angular.identity};
+
+                scope.destroy();
+                expect(scope.jcrop).toBeNull();
+            });
+
+        });
+
+        describe('init', function(){
+
+            it('init with no thumbnail', function(){
+                scope.init("/base/test/13x13.png");
+
+                expect(scope.mainImg.attr('src')).toBe("/base/test/13x13.png");
+                expect(scope.previewImg.attr('src')).toBeUndefined();
+            });
+
+            it('init with thumbnail', function(){
+                scope.thumbnail = true;
+                scope.init("/base/test/13x13.png");
+
+                expect(scope.mainImg.attr('src')).toBe("/base/test/13x13.png");
+                expect(scope.previewImg.attr('src')).toBe("/base/test/13x13.png");
+            });
+
         });
 
     });
