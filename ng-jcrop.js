@@ -69,6 +69,13 @@
 
     .controller('JcropController', ['$scope', '$element', function($scope, $element){
 
+        /* Checking the mandatory attributes */
+        if( angular.isUndefined($scope.selection) ){
+            throw new Error('ngJcrop: attribute `selection` is mandatory');
+        } else if( !angular.isArray($scope.selection) ){
+            throw new Error('ngJcrop: attribute `selection` must be an array');
+        }
+
         var MAX_WIDTH = 300,
             MAX_HEIGHT = 200;
 
@@ -115,9 +122,28 @@
         };
 
         /**
+         * set the `$scope.selection` variable
+         * @param {object} coords An object like this: {x: 1, y: 1, w: 1, h: 1, x2: 1, y2: 1}
+         */
+        $scope.setSelection = function(coords){
+            $scope.selection[0] = coords.x;
+            $scope.selection[1] = coords.y;
+            $scope.selection[2] = coords.w;
+            $scope.selection[3] = coords.h;
+            $scope.selection[4] = coords.x2;
+            $scope.selection[5] = coords.y2;
+        };
+
+        /**
          * Updates the preview regarding the coords form jCrop
          */
         $scope.showPreview = function(coords){
+            if( !$scope.selectionWatcher ){
+                $scope.$apply(function(){
+                    $scope.setSelection(coords);
+                });
+            }
+
             if( !$scope.thumbnail ){
                 return;
             }
@@ -191,7 +217,9 @@
         $scope.$on('$destroy', $scope.destroy);
 
         $scope.$on('JcropChangeSrc', function(ev, src){
-            $scope.init(src);
+            $scope.$apply(function(){
+                $scope.ngJcrop = src;
+            });
         });
 
         $scope.$watch('ngJcrop', function(newValue, oldValue, scope){
@@ -205,7 +233,9 @@
 
         $scope.$watch('selection', function(newValue, oldValue, scope){
             if( scope.jcrop ){
+                scope.selectionWatcher = true;
                 scope.jcrop.setSelect(scope.selection);
+                scope.selectionWatcher = false;
             }
         });
 
