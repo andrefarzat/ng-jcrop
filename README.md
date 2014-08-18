@@ -38,14 +38,22 @@ var yourModule = angular.module("yourModule", ['ngJcrop']);
 And add the `ng-jcrop` directive in an `<div>` giving the
 image's src as the value
 ```html
-<div ng-jcrop="beautifulImage.jpg"></div>
-````
+<script>
+angular.controller('SomeController', function($scope){
+    $scope.obj = {}
 
-You can add a thumbnail if you want
-```html
-<div ng-jcrop="beautifulImage.jpg" thumbnail="true"></div>
-````
+    // The url or the data64 for the image
+    $scope.obj.src = 'beautifulImage.jpg';
 
+    // Must be [x1, y1, x2, y2, w, h]
+    $scope.obj.coords = [100, 100, 200, 200, 100, 100];
+
+    // You can add a thumbnail if you want
+    $scope.obj.thumbnail = true;
+});
+</script>
+<div ng-jcrop="obj.src" selection="obj.coords" thumbnail="obj.thumbnail"></div>
+````
 
 ### Testing
 
