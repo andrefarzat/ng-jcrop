@@ -45,7 +45,10 @@ describe('ng-jcrop', function(){
 
         beforeEach(inject(function($controller, $rootScope, $compile){
             scope = $rootScope.$new();
-            el = $compile('<div ng-jcrop></div>')(scope);
+            scope.src = "/base/test/13x13.png";
+            scope.thumbnail = true;
+            scope.selection = [];
+            el = $compile('<div ng-jcrop="src" thumbnail="thumbnail" selection="selection"></div>')(scope);
 
             getController = function(params){
                 params = params || {};
@@ -91,13 +94,14 @@ describe('ng-jcrop', function(){
         describe('showPreview', function(){
 
             beforeEach(function(){
-                scope.previewImg = angular.element('<img>');
+                scope.selection = [];
+                scope.previewImg = angular.element('<img width="100px" />');
             });
 
             it('should do nothing if thumbnail = false', function(){
-                scope.previewImg.css('width', '10000px');
-                scope.showPreview();
-                expect(scope.previewImg.css('width')).toBe('10000px');
+                scope.thumbnail = false;
+                scope.showPreview({});
+                expect(scope.previewImg.css('width')).toBe('0px');
             });
 
             it('showPreview', function(){
@@ -140,38 +144,21 @@ describe('ng-jcrop', function(){
 
         describe('init', function(){
 
-            it('init with no thumbnail', function(){
+            it('with no thumbnail', inject(function($compile){
+                scope.thumbnail = false;
                 scope.init("/base/test/13x13.png");
 
                 expect(scope.mainImg.attr('src')).toBe("/base/test/13x13.png");
                 expect(scope.previewImg.attr('src')).toBeUndefined();
-            });
+            }));
 
-            it('init with thumbnail', function(){
+            it('with thumbnail', function(){
                 scope.thumbnail = true;
                 scope.init("/base/test/13x13.png");
 
                 expect(scope.mainImg.attr('src')).toBe("/base/test/13x13.png");
                 expect(scope.previewImg.attr('src')).toBe("/base/test/13x13.png");
             });
-
-            it('should call init when triggering JcropChangeSrc event', inject(function($rootScope){
-                spyOn(scope, 'init');
-                $rootScope.$broadcast('JcropChangeSrc', "/base/test/13x13.png");
-                expect(scope.init).toHaveBeenCalled();
-            }));
-
-
-            it('should call init when ngJcrop or thumbnail value changes', inject(function($compile){
-                spyOn(scope, 'init').andCallThrough();
-                el = $compile('<div ng-jcrop></div>')(scope);
-
-                expect(scope.init).not.toHaveBeenCalled();
-
-                scope.ngJcrop = 2;
-                scope.$apply();
-                expect(scope.init).toHaveBeenCalled();
-            }));
 
         });
 
