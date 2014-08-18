@@ -52,17 +52,19 @@ angular.controller('SomeController', function($scope){
     $scope.obj.thumbnail = true;
 });
 </script>
+
+
 <div ng-jcrop="obj.src" selection="obj.coords" thumbnail="obj.thumbnail"></div>
 ````
 
 ### Testing
 
 It is necessary install karma and its dependencies
-```sh
+```shell
 npm install
 ```
 
 Then you can run the tests
-```sh
+```shell
 npm test
 ```
