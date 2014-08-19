@@ -55,6 +55,7 @@
 
             reader.onload = function(ev){
                 $rootScope.$broadcast('JcropChangeSrc', ev.target.result);
+                $element[0].value = '';
             };
 
             reader.readAsDataURL(image);
@@ -171,9 +172,12 @@
             var config = {
                 onChange: $scope.showPreview,
                 onSelect: $scope.showPreview,
-                aspectRatio: 1,
-                setSelect: $scope.selection
+                aspectRatio: 1
             };
+
+            if( $scope.selection.length === 6 ){
+                config.setSelect = $scope.selection;
+            }
 
             $scope.jcrop = jQuery.Jcrop($scope.mainImg, config);
         };
@@ -218,6 +222,7 @@
 
         $scope.$on('JcropChangeSrc', function(ev, src){
             $scope.$apply(function(){
+                $scope.setSelection({x:0, y:0, x2:1000, y2:1000, w:1000, h:1000});
                 $scope.ngJcrop = src;
             });
         });
