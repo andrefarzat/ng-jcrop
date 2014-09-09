@@ -45,7 +45,7 @@ angular.controller('SomeController', function($scope){
     // The url or the data64 for the image
     $scope.obj.src = 'beautifulImage.jpg';
 
-    // Must be [x1, y1, x2, y2, w, h]
+    // Must be [x, y, x2, y2, w, h]
     $scope.obj.coords = [100, 100, 200, 200, 100, 100];
 
     // You can add a thumbnail if you want
