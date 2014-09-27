@@ -174,7 +174,7 @@
              * check if aspect ratio passed on directive or net set default 1
              * @returns number {aspectRatio}
              */
-            function getAspectRatio() {
+            $scope.getAspectRatio = function () {
                 var aspectRatio,splited;
                 if($scope.aspectRatio){
                     if($scope.aspectRatio.indexOf("/") > 0) {
@@ -206,7 +206,7 @@
                 var config = {
                     onChange: onChangeCallback,
                     onSelect: onChangeCallback,
-                    aspectRatio: getAspectRatio()
+                    aspectRatio: $scope.getAspectRatio()
                 };
 
                 if( $scope.selection.length === 6 ){
