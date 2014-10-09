@@ -63,25 +63,24 @@ angular.controller('SomeController', function($scope){
 
 You also can use with by setting aspect ratio (by default its 1)
 ```html
-
 <div ng-jcrop="obj.src" selection="obj.coords" aspect-ratio="3/4" thumbnail="obj.thumbnail"></div>
 ```
 If you want  attach your callback from controller you should write in attribute like this
-
+```html
 <div ng-jcrop="obj.src" selection="obj.coords" aspect-ratio="3/4"  thumbnail="obj.thumbnail" on-change-fn="onChangeCropArea(cords)"></div>
+```
+--------------
 
-````
-
-Testing
+### Testing
 
 It is necessary install karma and its dependencies
 
-```shell
+```sh
 npm install
 ```
 
 Then you can run the tests
 
-```shell
+```sh
 npm test
 ```
