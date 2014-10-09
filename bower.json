@@ -1,10 +1,10 @@
 {
-  "name": "ng-jcrop",
+  "name": "nj-crop",
   "main": "ng-jcrop.js",
-  "version": "1.0.0",
-  "homepage": "https://github.com/andrefarzat/ng-jcrop",
+  "version": "1.1.0",
+  "homepage": "http://manar007.github.io/ng-jcrop/",
   "authors": [
-    "Andre Farzat <andrefarzat@gmail.com>"
+    "Narek Mamikonyan <narekmamikonyan@gmail.com>, Andre Farzat <andrefarzat@gmail.com>"
   ],
   "description": "Angular directive to jCrop jQuery plugin",
   "keywords": [

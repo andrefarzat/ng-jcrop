@@ -50,21 +50,37 @@ angular.controller('SomeController', function($scope){
 
     // You can add a thumbnail if you want
     $scope.obj.thumbnail = true;
+
+     $scope.onChangeCropArea = function(cords){
+        // in cords var you have access to all cords and that wil be trigered all time when user interact with crop area
+     }
 });
 </script>
-
-
+```
+```html
 <div ng-jcrop="obj.src" selection="obj.coords" thumbnail="obj.thumbnail"></div>
-````
+```
+
+You also can use with by setting aspect ratio (by default its 1)
+```html
+<div ng-jcrop="obj.src" selection="obj.coords" aspect-ratio="3/4" thumbnail="obj.thumbnail"></div>
+```
+If you want  attach your callback from controller you should write in attribute like this
+```html
+<div ng-jcrop="obj.src" selection="obj.coords" aspect-ratio="3/4"  thumbnail="obj.thumbnail" on-change-fn="onChangeCropArea(cords)"></div>
+```
+--------------
 
 ### Testing
 
 It is necessary install karma and its dependencies
-```shell
+
+```sh
 npm install
 ```
 
 Then you can run the tests
-```shell
+
+```sh
 npm test
 ```

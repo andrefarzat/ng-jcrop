@@ -48,7 +48,12 @@ describe('ng-jcrop', function(){
             scope.src = "/base/test/13x13.png";
             scope.thumbnail = true;
             scope.selection = [];
-            el = $compile('<div ng-jcrop="src" thumbnail="thumbnail" selection="selection"></div>')(scope);
+            scope.onChangeFn = function(cords) {
+                return cords;
+            };
+
+
+            el = $compile('<div ng-jcrop="src" aspect-ratio="3/4" thumbnail="thumbnail" selection="selection"></div>')(scope);
 
             getController = function(params){
                 params = params || {};
@@ -59,6 +64,28 @@ describe('ng-jcrop', function(){
 
             ctrl = getController();
         }));
+
+        describe('getAspectRatio when not defined in scope',function(){
+            var aspectRatio;
+            beforeEach(function(){
+                aspectRatio = scope.getAspectRatio();
+            })
+            it('should return aspect ratio value 1',function(){
+               expect(aspectRatio).toBe(1);
+            });
+
+        });
+        describe('getAspectRatio when defined in scope',function(){
+            var aspectRatio;
+            beforeEach(function(){
+                scope.aspectRatio = "3/4";
+                aspectRatio = scope.getAspectRatio();
+            })
+            it('should return aspect ratio value 0.75',function(){
+               expect(aspectRatio).toBe(0.75);
+            });
+
+        })
 
         it('updateCurrentSizes', function(){
             var images = [
@@ -89,6 +116,7 @@ describe('ng-jcrop', function(){
 
             waits(500);
         });
+
 
 
         describe('showPreview', function(){
