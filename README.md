@@ -72,14 +72,16 @@ If you want  attach your callback from controller you should write in attribute 
 
 ````
 
-### Testing
+Testing
 
 It is necessary install karma and its dependencies
+
 ```shell
 npm install
 ```
 
 Then you can run the tests
+
 ```shell
 npm test
 ```
