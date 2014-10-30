@@ -3,21 +3,26 @@
     angular.module('ngJcrop', [])
 
     .constant('ngJcroptDefaultConfig', {
-        maxWidth: 300,
-        maxHeight: 200,
         widthLimit: 1000,
-        heightLimit: 1000
+        heightLimit: 1000,
+        jcrop: {
+            maxWidth: 300,
+            maxHeight: 200
+        }
     })
 
     .provider('ngJcropConfig', ['ngJcroptDefaultConfig', function(ngJcroptDefaultConfig){
-        var jcropConfig = angular.copy(ngJcroptDefaultConfig);
+        var config = angular.copy(ngJcroptDefaultConfig);
 
         return {
-            setConfig: function(config){
-                angular.extend(jcropConfig, config);
+            setConfig: function(objConfig){
+                angular.extend(config, objConfig);
+            },
+            setJcropConfig: function(objConfig){
+                angular.extend(config.jcrop, objConfig);
             },
             $get: function(){
-                return jcropConfig;
+                return config;
             }
         };
 
@@ -104,7 +109,7 @@
          * @type {jQuery}
          */
         $scope.mainImg = null;
-        $scope.imgStyle = {'width': ngJcropConfig.maxWidth, 'height': ngJcropConfig.maxHeight};
+        $scope.imgStyle = {'width': ngJcropConfig.jcrop.maxWidth, 'height': ngJcropConfig.jcrop.maxHeight};
 
         /**
          * jquery element storing the preview img tag
@@ -124,16 +129,16 @@
          * @param  {Image} img
          */
         $scope.updateCurrentSizes = function(img){
-            var widthShrinkRatio = img.width / ngJcropConfig.maxWidth,
-                heightShrinkRatio = img.height / ngJcropConfig.maxHeight,
-                widthConstraining = img.width > ngJcropConfig.maxWidth && widthShrinkRatio > heightShrinkRatio,
-                heightConstraining = img.height > ngJcropConfig.maxHeight && heightShrinkRatio > widthShrinkRatio;
+            var widthShrinkRatio = img.width / ngJcropConfig.jcrop.maxWidth,
+                heightShrinkRatio = img.height / ngJcropConfig.jcrop.maxHeight,
+                widthConstraining = img.width > ngJcropConfig.jcrop.maxWidth && widthShrinkRatio > heightShrinkRatio,
+                heightConstraining = img.height > ngJcropConfig.jcrop.maxHeight && heightShrinkRatio > widthShrinkRatio;
 
             if (widthConstraining) {
-                $scope.imgStyle.width = ngJcropConfig.maxWidth;
+                $scope.imgStyle.width = ngJcropConfig.jcrop.maxWidth;
                 $scope.imgStyle.height = img.height / widthShrinkRatio;
             } else if (heightConstraining) {
-                $scope.imgStyle.height = ngJcropConfig.maxHeight;
+                $scope.imgStyle.height = ngJcropConfig.jcrop.maxHeight;
                 $scope.imgStyle.width = img.width / heightShrinkRatio;
             } else {
                 $scope.imgStyle.height = img.height;
@@ -188,11 +193,11 @@
             $scope.mainImg.off('load', $scope.onMainImageLoad);
             $scope.updateCurrentSizes($scope.mainImg[0]);
 
-            var config = {
+            var config = angular.extend({
                 onChange: $scope.showPreview,
                 onSelect: $scope.showPreview,
                 aspectRatio: 1
-            };
+            }, ngJcropConfig);
 
             if( $scope.selection.length === 6 ){
                 config.setSelect = $scope.selection;
@@ -206,7 +211,7 @@
          */
         $scope.destroy = function(){
             if( $scope.jcrop ){
-                $scope.mainImg.off('load');
+                if( $scope.mainImg ){ $scope.mainImg.off('load'); }
                 $scope.jcrop.destroy();
                 $scope.jcrop = null;
             }
@@ -220,7 +225,7 @@
 
             $scope.mainImg = $('<img>').addClass('ng-jcrop-image');
             $scope.mainImg.on('load', $scope.onMainImageLoad);
-            $scope.mainImg.css({ maxWidth: ngJcropConfig.maxWidth, maxHeight: ngJcropConfig.maxHeight });
+            $scope.mainImg.css({ maxWidth: ngJcropConfig.jcrop.maxWidth, maxHeight: ngJcropConfig.jcrop.maxHeight });
             $scope.mainImg.attr('src', src);
 
             $element.find('.ng-jcrop-image-wrapper').empty().append($scope.mainImg);

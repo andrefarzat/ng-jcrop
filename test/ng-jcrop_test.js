@@ -12,9 +12,15 @@ describe('ng-jcrop', function(){
 
     describe('configuration', function(){
 
+        it('should return the new jcrop config', inject(function(ngJcroptDefaultConfig){
+            var config = angular.extend({}, ngJcroptDefaultConfig, {jcrop: {maxWidth: 1000, maxHeight: 2000}});
+            ngJcropConfigProvider.setJcropConfig({maxWidth: 1000, maxHeight: 2000});
+            expect(ngJcropConfigProvider.$get().jcrop).toEqual(config.jcrop);
+        }));
+
         it('should return the new config', inject(function(ngJcroptDefaultConfig){
-            var config = angular.extend({}, ngJcroptDefaultConfig, {maxWidth: 1000, maxHeight: 2000});
-            ngJcropConfigProvider.setConfig({maxWidth: 1000, maxHeight: 2000});
+            var config = angular.extend({}, ngJcroptDefaultConfig, {maxWidtwidthLimith: 2, widthHeight: 10});
+            ngJcropConfigProvider.setConfig({maxWidtwidthLimith: 2, widthHeight: 10});
             expect(ngJcropConfigProvider.$get()).toEqual(config);
         }));
 
@@ -46,9 +52,26 @@ describe('ng-jcrop', function(){
 
 
     describe('ng-jcrop directive', function(){
+        var scope;
+
+        beforeEach(inject(function($rootScope){
+            scope = $rootScope.$new();
+        }));
 
         it('should be ok', inject(function($compile){
-            var div = $compile('<div ng-jcrop></div>');
+            var div = $compile('<div ng-jcrop selection="[1,2,3,4]"></div>')(scope);
+        }));
+
+        it('shoudl fail', inject(function($compile){
+            var fn = function(){
+                var div = $compile('<div ng-jcrop></div>')(scope);
+            };
+            expect(fn).toThrow(new Error('ngJcrop: attribute `selection` is mandatory'));
+
+            var fn = function(){
+                var div = $compile('<div ng-jcrop selection="123"></div>')(scope);
+            };
+            expect(fn).toThrow(new Error('ngJcrop: attribute `selection` must be an array'));
         }));
 
     });
@@ -76,12 +99,14 @@ describe('ng-jcrop', function(){
 
         it('updateCurrentSizes', function(){
             var images = [
-                {width: 13, height: 13, src:"/base/test/13x13.png"},
-                {width: 11, height: 10, src:"/base/test/11x10.gif"},
-                {width: 10, height: 11, src:"/base/test/10x11.gif"},
-                {width: 185, height: 200, src:"/base/test/370x400.jpg"},
-                {width: 236.0097323600973, height: 200, src:"/base/test/485x411.jpg"},
-                {width: 3888, height: 2592, src:"/base/test/3888x2592.jpg"}
+                {width: 13, height: 13, src: "/base/test/13x13.png"},
+                {width: 11, height: 10, src: "/base/test/11x10.gif"},
+                {width: 10, height: 11, src: "/base/test/10x11.gif"},
+                {width: 185, height: 200, src: "/base/test/370x400.jpg"},
+                {width: 163.9344262295082, height: 200, src: "/base/test/350x427.jpg"},
+                {width: 236.0097323600973, height: 200, src: "/base/test/485x411.jpg"},
+                {width: 300, height: 60, src: "/base/test/1000x200.png"},
+                {width: 3888, height: 2592, src: "/base/test/3888x2592.jpg"}
             ];
 
             angular.forEach(images, function(image){
@@ -112,6 +137,15 @@ describe('ng-jcrop', function(){
             expect(scope.ngJcrop).toBe('new-src.png');
         });
 
+        it('should update the selection', function(){
+            scope.$apply();
+            scope.jcrop = {setSelect: angular.identity, destroy: angular.identity};
+            spyOn(scope.jcrop, 'setSelect');
+
+            scope.selection = [1, 2, 3, 4];
+            scope.$apply();
+            expect(scope.jcrop.setSelect).toHaveBeenCalled();
+        });
 
         describe('showPreview', function(){
 
@@ -217,26 +251,16 @@ describe('ng-jcrop', function(){
             var fn = function(){
                 el = $compile('<div ng-jcrop-input></div>')(scope);
             };
-
             expect(fn).toThrow(err);
 
             fn = function(){
                 el = $compile('<input type="text" ng-jcrop-input />')(scope);
             };
-
             expect(fn).toThrow(err);
         }));
 
-        xit('should set a new image', inject(function($rootScope){
-            var obj = {'ohMy': angular.identity};
-            spyOn(obj, 'ohMy');
-            $rootScope.$on('JcropChangeSrc', function(){ obj.ohMy(); });
-
-            // doesn't matter the type of the file, what matters are the events triggered
-            var image = new Blob(['<a id="a"><b id="b">hey!</b></a>'], {type: 'text/html'});
-            scope.setImage(image);
-
-            expect(scope.onFileInputChange).toHaveBeenCalled();
+        it('should set a new image', inject(function($rootScope){
+            el.trigger('change')
         }));
     });
 
