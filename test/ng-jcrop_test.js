@@ -19,8 +19,8 @@ describe('ng-jcrop', function(){
         }));
 
         it('should return the new config', inject(function(ngJcroptDefaultConfig){
-            var config = angular.extend({}, ngJcroptDefaultConfig, {maxWidtwidthLimith: 2, widthHeight: 10});
-            ngJcropConfigProvider.setConfig({maxWidtwidthLimith: 2, widthHeight: 10});
+            var config = angular.extend({}, ngJcroptDefaultConfig, {maxWidtwidthLimith: 2, widthHeight: 10, template: 'oi'});
+            ngJcropConfigProvider.setConfig({maxWidtwidthLimith: 2, widthHeight: 10, template: 'oi'});
             expect(ngJcropConfigProvider.$get()).toEqual(config);
         }));
 

@@ -11,8 +11,20 @@
         }
     })
 
-    .provider('ngJcropConfig', ['ngJcroptDefaultConfig', function(ngJcroptDefaultConfig){
+    .constant('ngJcropTemplate',
+        '<div class="ng-jcrop">' +
+        '    <div class="ng-jcrop-image-wrapper">' +
+        '        <img class="ng-jcrop-image" />' +
+        '   </div>' +
+        '   <div class="ng-jcrop-thumbnail-wrapper" ng-style="previewImgStyle">' +
+        '       <img class="ng-jcrop-thumbnail" />' +
+        '   </div>' +
+        '</div>'
+    )
+
+    .provider('ngJcropConfig', ['ngJcroptDefaultConfig', 'ngJcropTemplate', function(ngJcroptDefaultConfig, ngJcropTemplate){
         var config = angular.copy(ngJcroptDefaultConfig);
+        config.template = ngJcropTemplate;
 
         return {
             setConfig: function(objConfig){
@@ -38,12 +50,12 @@
         }
     }])
 
-    .directive('ngJcrop', ['ngJcropTemplate', function(ngJcropTemplate){
+    .directive('ngJcrop', ['ngJcropConfig', function(ngJcropConfig){
 
         return {
             restrict: 'A',
             scope: {ngJcrop: '=', thumbnail: '=', selection: '='},
-            template: ngJcropTemplate,
+            template: ngJcropConfig.template,
             controller: 'JcropController'
         };
 
@@ -57,17 +69,6 @@
         };
 
     })
-
-    .value('ngJcropTemplate',
-        '<div class="ng-jcrop">' +
-        '    <div class="ng-jcrop-image-wrapper">' +
-        '        <img class="ng-jcrop-image" />' +
-        '   </div>' +
-        '   <div class="ng-jcrop-thumbnail-wrapper" ng-style="previewImgStyle">' +
-        '       <img class="ng-jcrop-thumbnail" />' +
-        '   </div>' +
-        '</div>'
-    )
 
     .controller('JcropInputController', ['$rootScope', '$element', '$scope',
     function($rootScope, $element, $scope){
