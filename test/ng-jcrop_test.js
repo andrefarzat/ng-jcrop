@@ -12,11 +12,11 @@ describe('ng-jcrop', function(){
 
     describe('configuration', function(){
 
-        it('should return the new config', function(){
-            inject(function(){});
+        it('should return the new config', inject(function(ngJcroptDefaultConfig){
+            var config = angular.extend({}, ngJcroptDefaultConfig, {maxWidth: 1000, maxHeight: 2000});
             ngJcropConfigProvider.setConfig({maxWidth: 1000, maxHeight: 2000});
-            expect(ngJcropConfigProvider.$get()).toEqual({maxWidth: 1000, maxHeight: 2000});
-        });
+            expect(ngJcropConfigProvider.$get()).toEqual(config);
+        }));
 
         it('should thrown an error if jquery isnt included', function(){
             module(function($provide){
@@ -102,6 +102,14 @@ describe('ng-jcrop', function(){
             });
 
             waits(500);
+        });
+
+        it('should reset the config when JcropChangeSrc is triggered', function(){
+            spyOn(scope, 'setSelection');
+            scope.$emit('JcropChangeSrc', 'new-src.png');
+
+            expect(scope.setSelection).toHaveBeenCalled();
+            expect(scope.ngJcrop).toBe('new-src.png');
         });
 
 

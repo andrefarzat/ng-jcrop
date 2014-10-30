@@ -2,11 +2,15 @@
 
     angular.module('ngJcrop', [])
 
-    .provider('ngJcropConfig', function(){
-        var jcropConfig = {
-          maxWidth: 300,
-          maxHeight: 200
-        };
+    .constant('ngJcroptDefaultConfig', {
+        maxWidth: 300,
+        maxHeight: 200,
+        widthLimit: 1000,
+        heightLimit: 1000
+    })
+
+    .provider('ngJcropConfig', ['ngJcroptDefaultConfig', function(ngJcroptDefaultConfig){
+        var jcropConfig = angular.copy(ngJcroptDefaultConfig);
 
         return {
             setConfig: function(config){
@@ -17,7 +21,7 @@
             }
         };
 
-    })
+    }])
 
     .run(['$window', function($window){
         if( !$window.jQuery ){
@@ -85,7 +89,8 @@
 
     }])
 
-    .controller('JcropController', ['$scope', '$element', 'ngJcropConfig', function($scope, $element, ngJcropConfig){
+    .controller('JcropController', ['$scope', '$element', 'ngJcropConfig',
+    function($scope, $element, ngJcropConfig){
 
         /* Checking the mandatory attributes */
         if( angular.isUndefined($scope.selection) ){
@@ -236,7 +241,15 @@
 
         $scope.$on('JcropChangeSrc', function(ev, src){
             $scope.$apply(function(){
-                $scope.setSelection({x:0, y:0, x2:1000, y2:1000, w:1000, h:1000});
+                $scope.setSelection({
+                    x: 0,
+                    y: 0,
+                    x2: ngJcropConfig.widthLimit,
+                    y2: ngJcropConfig.heightLimit,
+                    w: ngJcropConfig.widthLimit,
+                    h: ngJcropConfig.heightLimit
+                });
+
                 $scope.ngJcrop = src;
             });
         });
