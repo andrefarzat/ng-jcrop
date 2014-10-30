@@ -1,8 +1,22 @@
 describe('ng-jcrop', function(){
 
-    beforeEach(angular.mock.module('ngJcrop'));
+    var ngJcropConfigProvider;
+
+    beforeEach(function(){
+        angular.module('testApp', function(){}).config(function (_ngJcropConfigProvider_){
+            ngJcropConfigProvider = _ngJcropConfigProvider_;
+        });
+
+        angular.mock.module('ngJcrop', 'testApp');
+    });
 
     describe('configuration', function(){
+
+        it('should return the new config', function(){
+            inject(function(){});
+            ngJcropConfigProvider.setConfig({maxWidth: 1000, maxHeight: 2000});
+            expect(ngJcropConfigProvider.$get()).toEqual({maxWidth: 1000, maxHeight: 2000});
+        });
 
         it('should thrown an error if jquery isnt included', function(){
             module(function($provide){

@@ -2,9 +2,21 @@
 
     angular.module('ngJcrop', [])
 
-    .constant('ngJcropConfig',{
-      maxWidth: 300,
-      maxHeight: 200
+    .provider('ngJcropConfig', function(){
+        var jcropConfig = {
+          maxWidth: 300,
+          maxHeight: 200
+        };
+
+        return {
+            setConfig: function(config){
+                angular.extend(jcropConfig, config);
+            },
+            $get: function(){
+                return jcropConfig;
+            }
+        };
+
     })
 
     .run(['$window', function($window){
@@ -107,17 +119,17 @@
          * @param  {Image} img
          */
         $scope.updateCurrentSizes = function(img){
-            var widthShrinkRatio = img.width/ngJcropConfig.maxWidth,
-                heightShrinkRatio = img.height/ngJcropConfig.maxHeight,
+            var widthShrinkRatio = img.width / ngJcropConfig.maxWidth,
+                heightShrinkRatio = img.height / ngJcropConfig.maxHeight,
                 widthConstraining = img.width > ngJcropConfig.maxWidth && widthShrinkRatio > heightShrinkRatio,
                 heightConstraining = img.height > ngJcropConfig.maxHeight && heightShrinkRatio > widthShrinkRatio;
 
             if (widthConstraining) {
                 $scope.imgStyle.width = ngJcropConfig.maxWidth;
-                $scope.imgStyle.height = img.height/widthShrinkRatio;
+                $scope.imgStyle.height = img.height / widthShrinkRatio;
             } else if (heightConstraining) {
                 $scope.imgStyle.height = ngJcropConfig.maxHeight;
-                $scope.imgStyle.width = img.width/heightShrinkRatio;
+                $scope.imgStyle.width = img.width / heightShrinkRatio;
             } else {
                 $scope.imgStyle.height = img.height;
                 $scope.imgStyle.width = img.width;
