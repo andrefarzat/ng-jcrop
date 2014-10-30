@@ -1,3 +1,4 @@
+/* global angular:true */
 (function(angular){
 
     angular.module('ngJcrop', [])
@@ -190,7 +191,7 @@
         /**
          * @event
          */
-        $scope.onMainImageLoad = function(ev){
+        $scope.onMainImageLoad = function(){
             $scope.mainImg.off('load', $scope.onMainImageLoad);
             $scope.updateCurrentSizes($scope.mainImg[0]);
 
