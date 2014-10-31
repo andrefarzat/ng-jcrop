@@ -49,7 +49,6 @@ app.config(function(ngJcropConfigProvider){
     ngJcropConfigProvider.setJcropConfig({
         bgColor: 'black',
         bgOpacity: .4,
-        setSelect: [ 100, 100, 50, 50 ],
         aspectRatio: 16 / 9
     });
 
