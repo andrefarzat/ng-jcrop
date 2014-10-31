@@ -39,7 +39,23 @@ And add the `ng-jcrop` directive in an `<div>` giving the
 image's src as the value
 ```html
 <script>
-angular.controller('SomeController', function($scope){
+
+var app = angular.module('yourModule', ['ngJcrop']);
+
+// Optional configuration via ngJcropConfigProvider
+// All jcrop settings are in: http://deepliquid.com/content/Jcrop_Manual.html#Setting_Options
+app.config(function(ngJcropConfigProvider){
+
+    ngJcropConfigProvider.setJcropConfig({
+        bgColor: 'black',
+        bgOpacity: .4,
+        setSelect: [ 100, 100, 50, 50 ],
+        aspectRatio: 16 / 9
+    });
+
+});
+
+app.controller('SomeController', function($scope){
     $scope.obj = {}
 
     // The url or the data64 for the image
