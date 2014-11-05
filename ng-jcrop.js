@@ -199,7 +199,7 @@
                 onChange: $scope.showPreview,
                 onSelect: $scope.showPreview,
                 aspectRatio: 1
-            }, ngJcropConfig);
+            }, ngJcropConfig.jcrop);
 
             if( $scope.selection.length === 6 ){
                 config.setSelect = $scope.selection;
