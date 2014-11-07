@@ -17,7 +17,9 @@
     "karma-coveralls": "~0.1.4"
   },
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start"
+    "postinstall": "bower install",
+    "test": "./node_modules/karma/bin/karma start",
+    "citest": "./node_modules/karma/bin/karma start karma.travis.conf.js"
   },
   "repository": {
     "type": "git",

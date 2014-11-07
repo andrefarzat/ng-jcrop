@@ -3,7 +3,7 @@ node_js:
  - 0.10
 
 before_script:
- - ./node_modules/bower/bin/bower install
+ - npm install
 
 script:
- - ./node_modules/karma/bin/karma start karma.travis.conf.js
+ - npm run citest
