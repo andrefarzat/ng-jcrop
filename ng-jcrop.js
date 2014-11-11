@@ -193,7 +193,7 @@
          */
         $scope.onMainImageLoad = function(){
             $scope.mainImg.off('load', $scope.onMainImageLoad);
-            $scope.updateCurrentSizes($scope.mainImg[0]);
+            $scope.updateCurrentSizes($('<img>').attr('src', $scope.mainImg[0].src)[0]);
 
             var config = angular.extend({
                 onChange: $scope.showPreview,
