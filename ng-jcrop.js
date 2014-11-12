@@ -153,12 +153,12 @@
          * @param {object} coords An object like this: {x: 1, y: 1, x2: 1, y2: 1, w: 1, h: 1}
          */
         $scope.setSelection = function(coords){
-            $scope.selection[0] = coords.x;
-            $scope.selection[1] = coords.y;
-            $scope.selection[2] = coords.x2;
-            $scope.selection[3] = coords.y2;
-            $scope.selection[4] = coords.w;
-            $scope.selection[5] = coords.h;
+            $scope.selection[0] = Math.round(coords.x);
+            $scope.selection[1] = Math.round(coords.y);
+            $scope.selection[2] = Math.round(coords.x2);
+            $scope.selection[3] = Math.round(coords.y2);
+            $scope.selection[4] = Math.round(coords.w);
+            $scope.selection[5] = Math.round(coords.h);
         };
 
         /**
