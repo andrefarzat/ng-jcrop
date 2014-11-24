@@ -216,6 +216,13 @@ describe('ng-jcrop', function(){
                 expect(scope.previewImg.attr('src')).toBe("/base/test/13x13.png");
             });
 
+            it('with no selection', inject(function($compile){
+                scope.selection = null;
+                el = $compile('<div ng-jcrop="src" thumbnail="thumbnail" selection="selection"></div>')(scope);
+                ctrl = getController();
+
+            }));
+
         });
 
     });

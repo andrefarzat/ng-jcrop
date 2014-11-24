@@ -102,7 +102,7 @@
         /* Checking the mandatory attributes */
         if( angular.isUndefined($scope.selection) ){
             throw new Error('ngJcrop: attribute `selection` is mandatory');
-        } else if( !angular.isArray($scope.selection) ){
+        } else if( !angular.isArray($scope.selection) && !($scope.selection === null)){
             throw new Error('ngJcrop: attribute `selection` must be an array');
         }
 
@@ -273,7 +273,9 @@
         $scope.$watch('selection', function(newValue, oldValue, scope){
             if( scope.jcrop ){
                 scope.selectionWatcher = true;
-                scope.jcrop.setSelect(scope.selection);
+                if( angular.isArray(scope.selection) ){
+                    scope.jcrop.setSelect(scope.selection);
+                }
                 scope.selectionWatcher = false;
             }
         });
