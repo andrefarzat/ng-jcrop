@@ -62,7 +62,7 @@ describe('ng-jcrop', function(){
             var div = $compile('<div ng-jcrop selection="[1,2,3,4]"></div>')(scope);
         }));
 
-        it('shoudl fail', inject(function($compile){
+        it('should fail', inject(function($compile){
             var fn = function(){
                 var div = $compile('<div ng-jcrop></div>')(scope);
             };
@@ -73,7 +73,6 @@ describe('ng-jcrop', function(){
             };
             expect(fn).toThrow(new Error('ngJcrop: attribute `selection` must be an array'));
         }));
-
     });
 
 
@@ -140,6 +139,27 @@ describe('ng-jcrop', function(){
         it('should transform `selection` into an array in case it\'s not', function(){
             scope.selection = null;
             scope.setSelection({x: 1, y: 1, x2: 1, y2: 1, w: 1, h: 1})
+            expect(scope.selection).toEqual([1, 1, 1, 1, 1, 1]);
+        });
+
+        it('should reset the selection when `selection` is null', function(){
+            scope.$apply();
+            scope.jcrop = {setSelect: angular.identity, destroy: angular.identity, release: angular.identity};
+            spyOn(scope.jcrop, 'setSelect');
+            spyOn(scope.jcrop, 'release');
+
+            scope.selection = [1, 1, 1, 1, 1, 1];
+            scope.$apply();
+            expect(scope.jcrop.setSelect).toHaveBeenCalled();
+            expect(scope.jcrop.release).not.toHaveBeenCalled();
+
+            scope.selection = null;
+            scope.$apply();
+            expect(scope.jcrop.release).toHaveBeenCalled();
+            expect(scope.selection).toBeNull();
+
+            scope.selection = [1, 1, 1, 1, 1, 1];
+            scope.$apply();
             expect(scope.selection).toEqual([1, 1, 1, 1, 1, 1]);
         });
 

@@ -279,6 +279,8 @@
                 scope.selectionWatcher = true;
                 if( angular.isArray(scope.selection) ){
                     scope.jcrop.setSelect(scope.selection);
+                } else {
+                    scope.jcrop.release();
                 }
                 scope.selectionWatcher = false;
             }
