@@ -137,6 +137,12 @@ describe('ng-jcrop', function(){
             expect(scope.ngJcrop).toBe('new-src.png');
         });
 
+        it('should transform `selection` into an array in case it\'s not', function(){
+            scope.selection = null;
+            scope.setSelection({x: 1, y: 1, x2: 1, y2: 1, w: 1, h: 1})
+            expect(scope.selection).toEqual([1, 1, 1, 1, 1, 1]);
+        });
+
         it('should update the selection', function(){
             scope.$apply();
             scope.jcrop = {setSelect: angular.identity, destroy: angular.identity};
