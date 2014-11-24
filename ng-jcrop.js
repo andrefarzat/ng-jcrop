@@ -201,7 +201,7 @@
                 aspectRatio: 1
             }, ngJcropConfig.jcrop);
 
-            if( $scope.selection.length === 6 ){
+            if( $scope.selection && $scope.selection.length === 6 ){
                 config.setSelect = $scope.selection;
             }
 
