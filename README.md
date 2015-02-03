@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/andrefarzat/ng-jcrop.svg?branch=master)](https://travis-ci.org/andrefarzat/ng-jcrop)
 [![Coverage Status](https://coveralls.io/repos/andrefarzat/ng-jcrop/badge.png)](https://coveralls.io/r/andrefarzat/ng-jcrop)
 [![Code Climate](https://codeclimate.com/github/andrefarzat/ng-jcrop/badges/gpa.svg)](https://codeclimate.com/github/andrefarzat/ng-jcrop)
+[![David dm](https://david-dm.org/andrefarzat/ng-jcrop.svg)](https://david-dm.org/andrefarzat/ng-jcrop)
 
 ng-jcrop
 ========
