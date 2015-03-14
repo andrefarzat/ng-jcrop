@@ -1,5 +1,6 @@
 /* global angular:true */
 (function(angular){
+    'use strict';
 
     angular.module('ngJcrop', [])
 
@@ -55,7 +56,12 @@
 
         return {
             restrict: 'A',
-            scope: {ngJcrop: '=', thumbnail: '=', selection: '='},
+            scope: {
+                ngJcrop: '=',
+                thumbnail: '=',
+                selection: '=',
+                originalSelection: '='
+            },
             template: ngJcropConfig.template,
             controller: 'JcropController'
         };
@@ -149,8 +155,27 @@
         };
 
         /**
-         * set the `$scope.selection` variable
+         * get the current shirnk ratio
+         * @type {}
+         */
+        $scope.getShrinkRatio = function(){
+            var img = $('<img>').attr('src', $scope.mainImg[0].src)[0];
+
+            var widthShrinkRatio = img.width / ngJcropConfig.jcrop.maxWidth,
+                heightShrinkRatio = img.height / ngJcropConfig.jcrop.maxHeight,
+                widthConstraining = img.width > ngJcropConfig.jcrop.maxWidth && widthShrinkRatio > heightShrinkRatio;
+
+            if(widthConstraining) {
+                return widthShrinkRatio;
+            } else {
+                return heightShrinkRatio;
+            }
+        };
+
+        /**
+         * set the `$scope.selection` and `$scope.originalSelection` variables
          * @param {object} coords An object like this: {x: 1, y: 1, x2: 1, y2: 1, w: 1, h: 1}
+         * @param  {Image} img
          */
         $scope.setSelection = function(coords){
             if( !angular.isArray($scope.selection) ){
@@ -163,6 +188,17 @@
             $scope.selection[3] = Math.round(coords.y2);
             $scope.selection[4] = Math.round(coords.w);
             $scope.selection[5] = Math.round(coords.h);
+
+
+            var shrinkRatio = $scope.getShrinkRatio();
+
+            $scope.originalSelection = [];
+            $scope.originalSelection[0] = Math.round(coords.x * shrinkRatio);
+            $scope.originalSelection[1] = Math.round(coords.y * shrinkRatio);
+            $scope.originalSelection[2] = Math.round(coords.x2 * shrinkRatio);
+            $scope.originalSelection[3] = Math.round(coords.y2 * shrinkRatio);
+            $scope.originalSelection[4] = Math.round(coords.w * shrinkRatio);
+            $scope.originalSelection[5] = Math.round(coords.h * shrinkRatio);
         };
 
         /**
