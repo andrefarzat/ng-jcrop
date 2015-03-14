@@ -56,12 +56,7 @@
 
         return {
             restrict: 'A',
-            scope: {
-                ngJcrop: '=',
-                thumbnail: '=',
-                selection: '=',
-                originalSelection: '='
-            },
+            scope: { ngJcrop: '=', thumbnail: '=', selection: '=' },
             template: ngJcropConfig.template,
             controller: 'JcropController'
         };
@@ -182,23 +177,13 @@
                 $scope.selection = [];
             }
 
-            $scope.selection[0] = Math.round(coords.x);
-            $scope.selection[1] = Math.round(coords.y);
-            $scope.selection[2] = Math.round(coords.x2);
-            $scope.selection[3] = Math.round(coords.y2);
-            $scope.selection[4] = Math.round(coords.w);
-            $scope.selection[5] = Math.round(coords.h);
-
-
             var shrinkRatio = $scope.getShrinkRatio();
-
-            $scope.originalSelection = [];
-            $scope.originalSelection[0] = Math.round(coords.x * shrinkRatio);
-            $scope.originalSelection[1] = Math.round(coords.y * shrinkRatio);
-            $scope.originalSelection[2] = Math.round(coords.x2 * shrinkRatio);
-            $scope.originalSelection[3] = Math.round(coords.y2 * shrinkRatio);
-            $scope.originalSelection[4] = Math.round(coords.w * shrinkRatio);
-            $scope.originalSelection[5] = Math.round(coords.h * shrinkRatio);
+            $scope.selection[0] = Math.round(coords.x * shrinkRatio);
+            $scope.selection[1] = Math.round(coords.y * shrinkRatio);
+            $scope.selection[2] = Math.round(coords.x2 * shrinkRatio);
+            $scope.selection[3] = Math.round(coords.y2 * shrinkRatio);
+            $scope.selection[4] = Math.round(coords.w * shrinkRatio);
+            $scope.selection[5] = Math.round(coords.h * shrinkRatio);
         };
 
         /**
