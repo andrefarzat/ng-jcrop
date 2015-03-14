@@ -137,9 +137,11 @@ describe('ng-jcrop', function(){
         });
 
         it('should transform `selection` into an array in case it\'s not', function(){
+            scope.initMainImage();
+
             scope.selection = null;
-            scope.setSelection({x: 1, y: 1, x2: 1, y2: 1, w: 1, h: 1})
-            expect(scope.selection).toEqual([1, 1, 1, 1, 1, 1]);
+            scope.setSelection({x: 0, y: 0, x2: 0, y2: 0, w: 0, h: 0})
+            expect(scope.selection).toEqual([0, 0, 0, 0, 0, 0]);
         });
 
         it('should reset the selection when `selection` is null', function(){
@@ -181,12 +183,14 @@ describe('ng-jcrop', function(){
             });
 
             it('should do nothing if thumbnail = false', function(){
+                scope.initMainImage();
                 scope.thumbnail = false;
                 scope.showPreview({});
                 expect(scope.previewImg.css('width')).toBe('0px');
             });
 
             it('showPreview', function(){
+                scope.initMainImage();
                 scope.thumbnail = true;
 
                 var coords = {x: 10, y: 10, w: 10, h: 10},

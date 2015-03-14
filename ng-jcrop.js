@@ -244,16 +244,24 @@
             }
         };
 
+
+        /**
+         * @init main image
+         */
+        $scope.initMainImage = function(src){
+            $scope.mainImg = $('<img>').addClass('ng-jcrop-image');
+            $scope.mainImg.on('load', $scope.onMainImageLoad);
+            $scope.mainImg.css({ maxWidth: ngJcropConfig.jcrop.maxWidth, maxHeight: ngJcropConfig.jcrop.maxHeight });
+            $scope.mainImg.attr('src', src);
+        };
+
         /**
          * @init
          */
         $scope.init = function(src){
             $scope.destroy();
 
-            $scope.mainImg = $('<img>').addClass('ng-jcrop-image');
-            $scope.mainImg.on('load', $scope.onMainImageLoad);
-            $scope.mainImg.css({ maxWidth: ngJcropConfig.jcrop.maxWidth, maxHeight: ngJcropConfig.jcrop.maxHeight });
-            $scope.mainImg.attr('src', src);
+            $scope.initMainImage(src);
 
             $element.find('.ng-jcrop-image-wrapper').empty().append($scope.mainImg);
 
