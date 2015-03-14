@@ -280,7 +280,8 @@
 
             $scope.initMainImage(src);
 
-            $element.find('.ng-jcrop-image-wrapper').empty().append($scope.mainImg);
+            $scope.thumbnailWrapper = $element.find('.ng-jcrop-image-wrapper');
+            $scope.thumbnailWrapper.empty().append($scope.mainImg);
 
             $scope.previewImg = $element.find('.ng-jcrop-thumbnail');
             $scope.previewImg.attr('src', src);
@@ -309,11 +310,10 @@
         });
 
         $scope.$watch('thumbnail', function(newValue, oldValue, scope){
-            var thumbnailWrapper = $element.find('.ng-jcrop-thumbnail-wrapper');
             if( scope.thumbnail ){
-                thumbnailWrapper.show();
+                $scope.thumbnailWrapper.show();
             } else {
-                thumbnailWrapper.hide();
+                $scope.thumbnailWrapper.hide();
             }
         });
 

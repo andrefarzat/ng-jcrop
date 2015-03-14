@@ -144,37 +144,6 @@ describe('ng-jcrop', function(){
             expect(scope.selection).toEqual([0, 0, 0, 0, 0, 0]);
         });
 
-        it('should reset the selection when `selection` is null', function(){
-            scope.$apply();
-            scope.jcrop = {setSelect: angular.identity, destroy: angular.identity, release: angular.identity};
-            spyOn(scope.jcrop, 'setSelect');
-            spyOn(scope.jcrop, 'release');
-
-            scope.selection = [1, 1, 1, 1, 1, 1];
-            scope.$apply();
-            expect(scope.jcrop.setSelect).toHaveBeenCalled();
-            expect(scope.jcrop.release).not.toHaveBeenCalled();
-
-            scope.selection = null;
-            scope.$apply();
-            expect(scope.jcrop.release).toHaveBeenCalled();
-            expect(scope.selection).toBeNull();
-
-            scope.selection = [1, 1, 1, 1, 1, 1];
-            scope.$apply();
-            expect(scope.selection).toEqual([1, 1, 1, 1, 1, 1]);
-        });
-
-        it('should update the selection', function(){
-            scope.$apply();
-            scope.jcrop = {setSelect: angular.identity, destroy: angular.identity};
-            spyOn(scope.jcrop, 'setSelect');
-
-            scope.selection = [1, 2, 3, 4];
-            scope.$apply();
-            expect(scope.jcrop.setSelect).toHaveBeenCalled();
-        });
-
         describe('showPreview', function(){
 
             beforeEach(function(){
@@ -232,10 +201,11 @@ describe('ng-jcrop', function(){
 
             it('with no thumbnail', inject(function($compile){
                 scope.thumbnail = false;
-                scope.init("/base/test/13x13.png");
+                scope.ngJcrop = "/base/test/13x13.png";
+                scope.$apply();
 
                 expect(scope.mainImg.attr('src')).toBe("/base/test/13x13.png");
-                expect(scope.previewImg.attr('src')).toBeUndefined();
+                expect(scope.thumbnailWrapper.css('display')).toBe('none');
             }));
 
             it('with thumbnail', function(){
