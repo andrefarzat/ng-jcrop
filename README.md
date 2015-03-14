@@ -9,12 +9,19 @@ ng-jcrop
 Angular directive to jCrop jQuery plugin
 
 
+### Demo
+
+http://andrefarzat.github.io/ng-jcrop/
+
+
 ### Installing
 
-Install via `bower`
+Install via `bower` or `npm`
 
 ```sh
 bower install ng-jcrop --save
+# or
+npm install ng-jcrop --save
 ```
 
 

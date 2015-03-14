@@ -1,7 +1,7 @@
 {
   "name": "ng-jcrop",
-  "version": "0.0.0",
-  "description": "ng-jcrop ========",
+  "version": "1.2.0",
+  "description": "ng-jcrop",
   "main": "ng-jcrop.js",
   "dependencies": {
     "karma": "~0.12.21",
