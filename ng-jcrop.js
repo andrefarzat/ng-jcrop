@@ -128,6 +128,12 @@
         $scope.jcrop = null;
 
         /**
+         * The coords of current selection
+         * @type {Array}
+         */
+        $scope.coords = $scope.selection;
+
+        /**
          * Updates the `imgStyle` with width and height
          * @param  {Image} img
          */
@@ -173,9 +179,20 @@
          * @param  {Image} img
          */
         $scope.setSelection = function(coords){
+            if( !angular.isArray($scope.coords) ){
+                $scope.coords = [];
+            }
+
             if( !angular.isArray($scope.selection) ){
                 $scope.selection = [];
             }
+
+            $scope.coords[0] = coords.x;
+            $scope.coords[1] = coords.y;
+            $scope.coords[2] = coords.x2;
+            $scope.coords[3] = coords.y2;
+            $scope.coords[4] = coords.w;
+            $scope.coords[5] = coords.h;
 
             var shrinkRatio = $scope.getShrinkRatio();
             $scope.selection[0] = Math.round(coords.x * shrinkRatio);
@@ -265,21 +282,14 @@
 
             $element.find('.ng-jcrop-image-wrapper').empty().append($scope.mainImg);
 
-            var thumbnailWrapper = $element.find('.ng-jcrop-thumbnail-wrapper');
             $scope.previewImg = $element.find('.ng-jcrop-thumbnail');
-
-            if( $scope.thumbnail ){
-                thumbnailWrapper.show();
-                $scope.previewImg.attr('src', src);
-            } else {
-                thumbnailWrapper.hide();
-            }
-
+            $scope.previewImg.attr('src', src);
         };
 
         $scope.$on('$destroy', $scope.destroy);
 
         $scope.$on('JcropChangeSrc', function(ev, src){
+
             $scope.$apply(function(){
                 $scope.setSelection({
                     x: 0,
@@ -299,19 +309,11 @@
         });
 
         $scope.$watch('thumbnail', function(newValue, oldValue, scope){
-            var src = scope.mainImg.attr('src');
-            scope.init(src);
-        });
-
-        $scope.$watch('selection', function(newValue, oldValue, scope){
-            if( scope.jcrop ){
-                scope.selectionWatcher = true;
-                if( angular.isArray(scope.selection) ){
-                    scope.jcrop.setSelect(scope.selection);
-                } else {
-                    scope.jcrop.release();
-                }
-                scope.selectionWatcher = false;
+            var thumbnailWrapper = $element.find('.ng-jcrop-thumbnail-wrapper');
+            if( scope.thumbnail ){
+                thumbnailWrapper.show();
+            } else {
+                thumbnailWrapper.hide();
             }
         });
 
