@@ -13,8 +13,8 @@ describe('ng-jcrop', function(){
     describe('configuration', function(){
 
         it('should return the new jcrop config', inject(function(ngJcroptDefaultConfig){
-            var config = angular.extend({}, ngJcroptDefaultConfig, {jcrop: {maxWidth: 1000, maxHeight: 2000, aspectRadio: 3}});
-            ngJcropConfigProvider.setJcropConfig({maxWidth: 1000, maxHeight: 2000, aspectRadio: 3});
+            var config = angular.extend({}, ngJcroptDefaultConfig, {jcrop: {maxWidth: 1000, maxHeight: 2000, aspectRatio: 3}});
+            ngJcropConfigProvider.setJcropConfig({maxWidth: 1000, maxHeight: 2000, aspectRatio: 3});
             expect(ngJcropConfigProvider.$get().jcrop).toEqual(config.jcrop);
         }));
 
