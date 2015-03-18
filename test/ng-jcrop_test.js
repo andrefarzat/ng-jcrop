@@ -24,6 +24,19 @@ describe('ng-jcrop', function(){
             expect(ngJcropConfigProvider.$get()).toEqual(config);
         }));
 
+        it('should return the default previewImgStyle config', inject(function(ngJcropConfig){
+            // yep, hard coded here. I want it to fail once it changes
+            expect(ngJcropConfig.previewImgStyle).toEqual({'width': '100px', 'height': '100px', 'overflow': 'hidden', 'margin-left': '5px'});
+        }));
+
+        it('should return the new previewImgStyle config', inject(function(ngJcropConfig){
+            var previewImgStyle = angular.extend({}, ngJcropConfig.previewImgStyle, {'width': '200px', 'overflow': 'scroll', 'box-sizing': 'border-box'})
+                config = angular.extend({}, ngJcropConfig, {'previewImgStyle': previewImgStyle});
+
+            ngJcropConfigProvider.setPreviewStyle({'width': '200px', 'overflow': 'scroll', 'box-sizing': 'border-box'});
+            expect(ngJcropConfigProvider.$get()).toEqual(config);
+        }));
+
         it('should thrown an error if jquery isnt included', function(){
             module(function($provide){
                 $provide.value('$window', {jQuery: false});

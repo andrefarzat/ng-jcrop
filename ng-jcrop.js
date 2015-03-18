@@ -7,6 +7,7 @@
     .constant('ngJcroptDefaultConfig', {
         widthLimit: 1000,
         heightLimit: 1000,
+        previewImgStyle: {'width': '100px', 'height': '100px', 'overflow': 'hidden', 'margin-left': '5px'},
         jcrop: {
             maxWidth: 300,
             maxHeight: 200
@@ -34,6 +35,9 @@
             },
             setJcropConfig: function(objConfig){
                 angular.extend(config.jcrop, objConfig);
+            },
+            setPreviewStyle: function(styleObject){
+                angular.extend(config.previewImgStyle, styleObject);
             },
             $get: function(){
                 return config;
@@ -119,7 +123,7 @@
          * @type {jQuery}
          */
         $scope.previewImg = null;
-        $scope.previewImgStyle = {'width': '100px', 'height': '100px', 'overflow': 'hidden', 'margin-left': '5px'};
+        $scope.previewImgStyle = ngJcropConfig.previewImgStyle;
 
         /**
          * Stores the jcrop instance
