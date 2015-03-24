@@ -54,10 +54,19 @@ var app = angular.module('yourModule', ['ngJcrop']);
 // All jcrop settings are in: http://deepliquid.com/content/Jcrop_Manual.html#Setting_Options
 app.config(function(ngJcropConfigProvider){
 
+    // [optional] To change the jcrop configuration
     ngJcropConfigProvider.setJcropConfig({
         bgColor: 'black',
         bgOpacity: .4,
         aspectRatio: 16 / 9
+    });
+
+    // [optional] To change the css style in the preview image
+    ngJcropConfigProvider.setPreviewStyle({
+        'width': '100px',
+        'height': '100px',
+        'overflow': 'hidden',
+        'margin-left': '5px'
     });
 
 });
