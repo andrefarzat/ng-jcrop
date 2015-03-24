@@ -280,8 +280,8 @@
 
             $scope.initMainImage(src);
 
-            $scope.thumbnailWrapper = $element.find('.ng-jcrop-image-wrapper');
-            $scope.thumbnailWrapper.empty().append($scope.mainImg);
+            $scope.imageWrapper = $element.find('.ng-jcrop-image-wrapper');
+            $scope.imageWrapper.empty().append($scope.mainImg);
 
             $scope.previewImg = $element.find('.ng-jcrop-thumbnail');
             $scope.previewImg.attr('src', src);
@@ -311,9 +311,9 @@
 
         $scope.$watch('thumbnail', function(newValue, oldValue, scope){
             if( scope.thumbnail ){
-                $scope.thumbnailWrapper.show();
+                $scope.previewImg.show();
             } else {
-                $scope.thumbnailWrapper.hide();
+                $scope.previewImg.hide();
             }
         });
 
