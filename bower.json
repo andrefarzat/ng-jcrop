@@ -1,7 +1,7 @@
 {
   "name": "ng-jcrop",
   "main": "ng-jcrop.js",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "homepage": "https://github.com/andrefarzat/ng-jcrop",
   "authors": [
     "Andre Farzat <andrefarzat@gmail.com>"

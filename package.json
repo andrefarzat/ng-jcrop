@@ -1,6 +1,6 @@
 {
   "name": "ng-jcrop",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "ng-jcrop",
   "main": "ng-jcrop.js",
   "dependencies": {
