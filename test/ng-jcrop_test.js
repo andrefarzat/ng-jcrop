@@ -218,7 +218,7 @@ describe('ng-jcrop', function(){
                 scope.$apply();
 
                 expect(scope.mainImg.attr('src')).toBe("/base/test/13x13.png");
-                expect(scope.thumbnailWrapper.css('display')).toBe('none');
+                expect(scope.previewImg.css('display')).toBe('none');
             }));
 
             it('with thumbnail', function(){
