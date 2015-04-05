@@ -238,6 +238,37 @@ describe('ng-jcrop', function(){
 
         });
 
+
+        describe('getShrinkRatio', function(){
+
+            iit('should return the correct Shrink Ratio', function(){
+                var images = [
+                    {ratio: 1.2125, maxWidth: 400, maxHeight: 400, src: '/base/test/485x411.jpg'},
+                    {ratio: 1, maxWidth: 600, maxHeight: 400, src: '/base/test/485x411.jpg'},
+                    {ratio: 1, maxWidth: 400, maxHeight: 500, src: '/base/test/485x411.jpg'}
+                ];
+
+                angular.forEach(images, function(image){
+                    runs(function(){
+                        ngJcropConfigProvider.setJcropConfig({
+                            maxWidth: image.maxWidth,
+                            maxHeight: image.maxHeight
+                        });
+
+                        scope.initMainImage(image.src);
+
+                        scope.mainImg.on('load', function(){
+                            expect(scope.getShrinkRatio()).toBe(image.ratio);
+                        });
+                    });
+
+                    waits(200);
+                });
+
+            });
+
+        });
+
     });
 
     describe('ng-jcrop-input directive', function(){

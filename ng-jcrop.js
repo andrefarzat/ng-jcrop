@@ -9,8 +9,9 @@
         heightLimit: 1000,
         previewImgStyle: {'width': '100px', 'height': '100px', 'overflow': 'hidden', 'margin-left': '5px'},
         jcrop: {
+            aspectRatio: 1,
             maxWidth: 300,
-            maxHeight: 200
+            maxHeight: 300
         }
     })
 
@@ -166,6 +167,10 @@
         $scope.getShrinkRatio = function(){
             var img = $('<img>').attr('src', $scope.mainImg[0].src)[0];
 
+            if(ngJcropConfig.jcrop.maxWidth > img.width || ngJcropConfig.jcrop.maxHeight > img.height){
+                return 1;
+            }
+
             var widthShrinkRatio = img.width / ngJcropConfig.jcrop.maxWidth,
                 heightShrinkRatio = img.height / ngJcropConfig.jcrop.maxHeight,
                 widthConstraining = img.width > ngJcropConfig.jcrop.maxWidth && widthShrinkRatio > heightShrinkRatio;
@@ -243,8 +248,7 @@
 
             var config = angular.extend({
                 onChange: $scope.showPreview,
-                onSelect: $scope.showPreview,
-                aspectRatio: 1
+                onSelect: $scope.showPreview
             }, ngJcropConfig.jcrop);
 
             if( $scope.selection && $scope.selection.length === 6 ){
