@@ -241,7 +241,7 @@ describe('ng-jcrop', function(){
 
         describe('getShrinkRatio', function(){
 
-            iit('should return the correct Shrink Ratio', function(){
+            it('should return the correct Shrink Ratio', function(){
                 var images = [
                     {ratio: 1.2125, maxWidth: 400, maxHeight: 400, src: '/base/test/485x411.jpg'},
                     {ratio: 1, maxWidth: 600, maxHeight: 400, src: '/base/test/485x411.jpg'},
