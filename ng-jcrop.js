@@ -221,8 +221,8 @@
                 return;
             }
 
-            var rx = 100 / coords.w;
-            var ry = 100 / coords.h;
+            var rx = parseInt($scope.previewImgStyle.width) / coords.w;
+            var ry = parseInt($scope.previewImgStyle.height) / coords.h;
 
             $scope.previewImg.css({
                 width: Math.round(rx * $scope.imgStyle.width) + 'px',
