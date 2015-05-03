@@ -1,29 +1,12 @@
-[![Build Status](https://travis-ci.org/andrefarzat/ng-jcrop.svg?branch=master)](https://travis-ci.org/andrefarzat/ng-jcrop)
-[![Coverage Status](https://coveralls.io/repos/andrefarzat/ng-jcrop/badge.png)](https://coveralls.io/r/andrefarzat/ng-jcrop)
-[![Code Climate](https://codeclimate.com/github/andrefarzat/ng-jcrop/badges/gpa.svg)](https://codeclimate.com/github/andrefarzat/ng-jcrop)
-[![David dm](https://david-dm.org/andrefarzat/ng-jcrop.svg)](https://david-dm.org/andrefarzat/ng-jcrop)
-
 ng-jcrop
 ========
 
-Angular directive to jCrop jQuery plugin
-
-
-### Demo
-
-http://andrefarzat.github.io/ng-jcrop/
+Alternative of Angular directive to jCrop jQuery plugin from https://github.com/andrefarzat/ng-jcrop/blob/master/ng-jcrop.js
 
 
 ### Installing
 
-Install via `bower` or `npm`
-
-```sh
-bower install ng-jcrop --save
-# or
-npm install ng-jcrop --save
-```
-
+Clone this Repo
 
 It depends of angular, jquery and jquery-jcrop, so it is necessary including all libraries
 
@@ -50,26 +33,6 @@ image's src as the value
 
 var app = angular.module('yourModule', ['ngJcrop']);
 
-// Optional configuration via ngJcropConfigProvider
-// All jcrop settings are in: http://deepliquid.com/content/Jcrop_Manual.html#Setting_Options
-app.config(function(ngJcropConfigProvider){
-
-    // [optional] To change the jcrop configuration
-    ngJcropConfigProvider.setJcropConfig({
-        bgColor: 'black',
-        bgOpacity: .4,
-        aspectRatio: 16 / 9
-    });
-
-    // [optional] To change the css style in the preview image
-    ngJcropConfigProvider.setPreviewStyle({
-        'width': '100px',
-        'height': '100px',
-        'overflow': 'hidden',
-        'margin-left': '5px'
-    });
-
-});
 
 app.controller('SomeController', function($scope){
     $scope.obj = {}
@@ -78,25 +41,29 @@ app.controller('SomeController', function($scope){
     $scope.obj.src = 'beautifulImage.jpg';
 
     // Must be [x, y, x2, y2, w, h]
-    $scope.obj.coords = [100, 100, 200, 200, 100, 100];
 
     // You can add a thumbnail if you want
     $scope.obj.thumbnail = true;
+    $scope.obj.coords = {
+        'h': 100,
+        'w': 100,
+        'x': 100,
+        'y': 100,
+        'x2': 100,
+        'y2': 100
+    }
+    $scope.obj.config = {
+        bgColor: 'black',
+        bgOpacity: .4,
+        aspectRatio: 16 / 9,
+        boxWidth: 300,
+        boxHeight: 400
+    };
 });
 </script>
 
 
-<div ng-jcrop="obj.src" selection="obj.coords" thumbnail="obj.thumbnail"></div>
+<div ng-jcrop image-src="obj.src" selection="obj.coords" thumbnail="obj.thumbnail" config="obj.config"></div>
 ````
 
-### Testing
-
-It is necessary install karma and its dependencies
-```shell
-npm install
-```
-
-Then you can run the tests
-```shell
-npm test
-```
+Note that thumbnail is unavialable now

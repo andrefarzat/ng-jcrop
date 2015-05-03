@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,75 +10,47 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.12/js/jquery.Jcrop.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
-    <script src="http://suzuha.local:8000/ng-jcrop.js"></script>
+    <script src="../ng-jcrop.js"></script>
 </head>
 <body ng-app="ngJcropDemo">
-
-    <script>
-    (function(){
-        var app = angular.module('ngJcropDemo', ['ngJcrop']);
-
-        app.config(function(ngJcropConfigProvider){
-
-            ngJcropConfigProvider.setJcropConfig({
-                bgColor: 'black',
-                bgOpacity: .4,
-                aspectRatio: 1
-            });
-
-        });
+        <script>
+                var app = angular.module('ngJcropDemo', ['ngJcrop']);
 
 
-        app.controller('DemoController', function($scope){
-            $scope.obj = {}
+                app.controller('ngJcropDemoController', function($scope) {
+                        $scope.obj = {}
 
-            // The url or the data64 for the image
-            $scope.obj.src = 'demo/redpanda-640x480.jpg';
+                        // The url or the data64 for the image
+                        $scope.obj.src = 'redpanda-640x480.jpg';
 
-            // Must be [x, y, x2, y2, w, h]
-            $scope.obj.selection = [100, 100, 200, 200, 100, 100];
+                        // Must be [x, y, x2, y2, w, h]
+                        $scope.obj.coords = {
+                                'h': 100,
+                                'w': 100,
+                                'x': 100,
+                                'y': 100,
+                                'x2': 100,
+                                'y2': 100
+                        }
 
-            // You can add a thumbnail if you want
-            $scope.obj.thumbnail = true;
-        });
+                        // You can add a thumbnail if you want
+                        $scope.obj.thumbnail = true;
+                        $scope.obj.config = {
+                                bgColor: 'black',
+                                bgOpacity: .4,
+                                aspectRatio: 16 / 9,
+                                boxWidth: 300,
+                                boxHeight: 400
+                        };
+                });
+        </script>
 
 
-    })();
-    </script>
-
-    <style>
-    .ng-jcrop-image-wrapper { display: inline-block; }
-    .ng-jcrop-thumbnail-wrapper { display: inline-block; }
-    </style>
-
-    <div class="container" ng-controller="DemoController">
-        <h1>ng-jcrop demo page</h1>
-
-        <div class="row">
-
-            <div class="one-half column">
-                <h2>640 x 480 <small style="font-size: 0.6em;">(<a ng-href="{{ obj.src }}">see image</a>)</small></h2>
-                <div ng-jcrop="obj.src" selection="obj.selection" thumbnail="obj.thumbnail"></div>
-            </div>
-
-            <div class="one-half column">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td><strong>x</strong>: <span ng-bind="obj.selection[0]"></span></td>
-                            <td><strong>y</strong>: <span ng-bind="obj.selection[1]"></span></td>
-                            <td><strong>x2</strong>: <span ng-bind="obj.selection[2]"></span></td>
-                            <td><strong>y2</strong>: <span ng-bind="obj.selection[3]"></span></td>
-                            <td><strong>w</strong>: <span ng-bind="obj.selection[4]"></span></td>
-                            <td><strong>h</strong>: <span ng-bind="obj.selection[5]"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <label><input type="checkbox" ng-model="obj.thumbnail" /> Thumbnail</label>
-            </div>
-
+        <div class="container" ng-controller="ngJcropDemoController">
+                <div ng-jcrop image-src="obj.src" selection="obj.coords" thumbnail="obj.thumbnail" config="obj.config"></div>
+                <input type="file" ng-jcrop-input></input>
+                <span>{{obj.coords.h}} {{obj.coords.w}}</span>
         </div>
-    </div>
-
 </body>
+
 </html>
