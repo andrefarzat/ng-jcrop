@@ -114,11 +114,11 @@ describe('ng-jcrop', function(){
                 {width: 13, height: 13, src: "/base/test/13x13.png"},
                 {width: 11, height: 10, src: "/base/test/11x10.gif"},
                 {width: 10, height: 11, src: "/base/test/10x11.gif"},
-                {width: 185, height: 200, src: "/base/test/370x400.jpg"},
-                {width: 163.9344262295082, height: 200, src: "/base/test/350x427.jpg"},
-                {width: 236.0097323600973, height: 200, src: "/base/test/485x411.jpg"},
+                {width: 277.5, height: 300, src: "/base/test/370x400.jpg"},
+                {width: 245.9016393442623, height: 300, src: "/base/test/350x427.jpg"},
+                {width: 300, height: 254.22680412371133, src: "/base/test/485x411.jpg"},
                 {width: 300, height: 60, src: "/base/test/1000x200.png"},
-                {width: 3888, height: 2592, src: "/base/test/3888x2592.jpg"}
+                {width: 300, height: 200, src: "/base/test/3888x2592.jpg"}
             ];
 
             angular.forEach(images, function(image){
@@ -235,6 +235,37 @@ describe('ng-jcrop', function(){
                 ctrl = getController();
 
             }));
+
+        });
+
+
+        describe('getShrinkRatio', function(){
+
+            it('should return the correct Shrink Ratio', function(){
+                var images = [
+                    {ratio: 1.2125, maxWidth: 400, maxHeight: 400, src: '/base/test/485x411.jpg'},
+                    {ratio: 1, maxWidth: 600, maxHeight: 400, src: '/base/test/485x411.jpg'},
+                    {ratio: 1, maxWidth: 400, maxHeight: 500, src: '/base/test/485x411.jpg'}
+                ];
+
+                angular.forEach(images, function(image){
+                    runs(function(){
+                        ngJcropConfigProvider.setJcropConfig({
+                            maxWidth: image.maxWidth,
+                            maxHeight: image.maxHeight
+                        });
+
+                        scope.initMainImage(image.src);
+
+                        scope.mainImg.on('load', function(){
+                            expect(scope.getShrinkRatio()).toBe(image.ratio);
+                        });
+                    });
+
+                    waits(200);
+                });
+
+            });
 
         });
 

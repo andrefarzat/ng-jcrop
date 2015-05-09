@@ -24,7 +24,8 @@
             ngJcropConfigProvider.setJcropConfig({
                 bgColor: 'black',
                 bgOpacity: .4,
-                aspectRatio: 1
+                aspectRatio: 1,
+                maxWidth: 300
             });
 
         });
@@ -43,6 +44,19 @@
             $scope.obj.thumbnail = true;
         });
 
+        app.controller('DemoController2', function($scope){
+            $scope.obj = {}
+
+            // The url or the data64 for the image
+            $scope.obj.src = 'demo/redpanda-350x427.jpg';
+
+            // Must be [x, y, x2, y2, w, h]
+            $scope.obj.selection = [100, 100, 200, 200, 100, 100];
+
+            // You can add a thumbnail if you want
+            $scope.obj.thumbnail = true;
+        });
+
 
     })();
     </script>
@@ -52,10 +66,10 @@
     .ng-jcrop-thumbnail-wrapper { display: inline-block; }
     </style>
 
-    <div class="container" ng-controller="DemoController">
+    <div class="container">
         <h1>ng-jcrop demo page</h1>
 
-        <div class="row">
+        <div class="row" ng-controller="DemoController">
 
             <div class="one-half column">
                 <h2>640 x 480 <small style="font-size: 0.6em;">(<a ng-href="{{ obj.src }}">see image</a>)</small></h2>
@@ -78,6 +92,29 @@
                 <label><input type="checkbox" ng-model="obj.thumbnail" /> Thumbnail</label>
             </div>
 
+        </div>
+
+        <div class="row" ng-controller="DemoController2">
+            <div class="one-half column">
+                <h2>350 x 427 <small style="font-size: 0.6em;">(<a ng-href="{{ obj.src }}">see image</a>)</small></h2>
+                <div ng-jcrop="obj.src" selection="obj.selection" thumbnail="obj.thumbnail"></div>
+            </div>
+
+            <div class="one-half column">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><strong>x</strong>: <span ng-bind="obj.selection[0]"></span></td>
+                            <td><strong>y</strong>: <span ng-bind="obj.selection[1]"></span></td>
+                            <td><strong>x2</strong>: <span ng-bind="obj.selection[2]"></span></td>
+                            <td><strong>y2</strong>: <span ng-bind="obj.selection[3]"></span></td>
+                            <td><strong>w</strong>: <span ng-bind="obj.selection[4]"></span></td>
+                            <td><strong>h</strong>: <span ng-bind="obj.selection[5]"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <label><input type="checkbox" ng-model="obj.thumbnail" /> Thumbnail</label>
+            </div>
         </div>
     </div>
 

@@ -51,10 +51,10 @@ image's src as the value
 var app = angular.module('yourModule', ['ngJcrop']);
 
 // Optional configuration via ngJcropConfigProvider
-// All jcrop settings are in: http://deepliquid.com/content/Jcrop_Manual.html#Setting_Options
 app.config(function(ngJcropConfigProvider){
 
     // [optional] To change the jcrop configuration
+    // All jcrop settings are in: http://deepliquid.com/content/Jcrop_Manual.html#Setting_Options
     ngJcropConfigProvider.setJcropConfig({
         bgColor: 'black',
         bgOpacity: .4,
