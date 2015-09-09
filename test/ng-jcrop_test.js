@@ -3,7 +3,7 @@ describe('ng-jcrop', function(){
     var ngJcropConfigProvider;
 
     beforeEach(function(){
-        angular.module('testApp', function(){}).config(function (_ngJcropConfigProvider_){
+        angular.module('testApp', []).config(function (_ngJcropConfigProvider_){
             ngJcropConfigProvider = _ngJcropConfigProvider_;
         });
 
