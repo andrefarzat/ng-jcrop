@@ -27,21 +27,42 @@
     )
 
     .provider('ngJcropConfig', ['ngJcroptDefaultConfig', 'ngJcropTemplate', function(ngJcroptDefaultConfig, ngJcropTemplate){
-        var config = angular.copy(ngJcroptDefaultConfig);
-        config.template = ngJcropTemplate;
+        // All configs
+        var _configs = {};
+
+        // Returns the correct configuration relying the arguments
+        function _getConfig(name){
+            if( typeof name === 'object' ){
+                name = 'default';
+            }
+
+            if (!(name in _configs)) {
+                // If this is a new config, create as default config
+                _configs[name] = angular.copy(ngJcroptDefaultConfig);
+                _configs[name].template = ngJcropTemplate;
+            }
+
+            return _configs[name];
+        }
+
+        // Must have the default at least
+        _getConfig('default');
 
         return {
-            setConfig: function(objConfig){
-                angular.extend(config, objConfig);
+            setConfig: function(name, objConfig){
+                var config = _getConfig(name);
+                angular.extend(config, typeof name === 'object' ? name : objConfig);
             },
-            setJcropConfig: function(objConfig){
-                angular.extend(config.jcrop, objConfig);
+            setJcropConfig: function(name, objConfig){
+                var config = _getConfig(name);
+                angular.extend(config.jcrop, typeof name === 'object' ? name : objConfig);
             },
-            setPreviewStyle: function(styleObject){
-                angular.extend(config.previewImgStyle, styleObject);
+            setPreviewStyle: function(name, styleObject){
+                var config = _getConfig(name);
+                angular.extend(config.previewImgStyle, typeof name === 'object' ? name : styleObject);
             },
             $get: function(){
-                return config;
+                return _configs;
             }
         };
 
@@ -58,10 +79,11 @@
     }])
 
     .directive('ngJcrop', ['ngJcropConfig', function(ngJcropConfig){
+        ngJcropConfig = ngJcropConfig['default'];
 
         return {
             restrict: 'A',
-            scope: { ngJcrop: '=', thumbnail: '=', selection: '=' },
+            scope: { ngJcrop: '=', thumbnail: '=', selection: '=', ngJcropConfigName: '@' },
             template: ngJcropConfig.template,
             controller: 'JcropController'
         };
@@ -104,6 +126,15 @@
 
     .controller('JcropController', ['$scope', '$element', 'ngJcropConfig',
     function($scope, $element, ngJcropConfig){
+        if (!$scope.ngJcropConfigName) {
+            $scope.ngJcropConfigName = 'default';
+        }
+
+        ngJcropConfig = ngJcropConfig[$scope.ngJcropConfigName];
+
+        if (!ngJcropConfig) {
+            throw new Error('Unknown "{name}" config name'.replace('{name}', $scope.ngJcropConfigName));
+        }
 
         /* Checking the mandatory attributes */
         if( angular.isUndefined($scope.selection) ){
@@ -319,9 +350,9 @@
 
         $scope.$watch('thumbnail', function(newValue, oldValue, scope){
             if( scope.thumbnail ){
-                $scope.previewImg.show();
+                scope.previewImg.show();
             } else {
-                $scope.previewImg.hide();
+                scope.previewImg.hide();
             }
         });
 

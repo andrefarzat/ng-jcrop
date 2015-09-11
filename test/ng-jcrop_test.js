@@ -3,7 +3,7 @@ describe('ng-jcrop', function(){
     var ngJcropConfigProvider;
 
     beforeEach(function(){
-        angular.module('testApp', function(){}).config(function (_ngJcropConfigProvider_){
+        angular.module('testApp', []).config(function (_ngJcropConfigProvider_){
             ngJcropConfigProvider = _ngJcropConfigProvider_;
         });
 
@@ -15,26 +15,35 @@ describe('ng-jcrop', function(){
         it('should return the new jcrop config', inject(function(ngJcroptDefaultConfig){
             var config = angular.extend({}, ngJcroptDefaultConfig, {jcrop: {maxWidth: 1000, maxHeight: 2000, aspectRatio: 3}});
             ngJcropConfigProvider.setJcropConfig({maxWidth: 1000, maxHeight: 2000, aspectRatio: 3});
-            expect(ngJcropConfigProvider.$get().jcrop).toEqual(config.jcrop);
+            expect(ngJcropConfigProvider.$get()['default'].jcrop).toEqual(config.jcrop);
         }));
 
         it('should return the new config', inject(function(ngJcroptDefaultConfig){
             var config = angular.extend({}, ngJcroptDefaultConfig, {maxWidtwidthLimith: 2, widthHeight: 10, template: 'oi'});
             ngJcropConfigProvider.setConfig({maxWidtwidthLimith: 2, widthHeight: 10, template: 'oi'});
-            expect(ngJcropConfigProvider.$get()).toEqual(config);
+            expect(ngJcropConfigProvider.$get()['default']).toEqual(config);
         }));
 
         it('should return the default previewImgStyle config', inject(function(ngJcropConfig){
             // yep, hard coded here. I want it to fail once it changes
-            expect(ngJcropConfig.previewImgStyle).toEqual({'width': '100px', 'height': '100px', 'overflow': 'hidden', 'margin-left': '5px'});
+            expect(ngJcropConfig['default'].previewImgStyle).toEqual({'width': '100px', 'height': '100px', 'overflow': 'hidden', 'margin-left': '5px'});
         }));
 
         it('should return the new previewImgStyle config', inject(function(ngJcropConfig){
+            ngJcropConfig = ngJcropConfig['default'];
             var previewImgStyle = angular.extend({}, ngJcropConfig.previewImgStyle, {'width': '200px', 'overflow': 'scroll', 'box-sizing': 'border-box'})
                 config = angular.extend({}, ngJcropConfig, {'previewImgStyle': previewImgStyle});
 
             ngJcropConfigProvider.setPreviewStyle({'width': '200px', 'overflow': 'scroll', 'box-sizing': 'border-box'});
-            expect(ngJcropConfigProvider.$get()).toEqual(config);
+            expect(ngJcropConfigProvider.$get()['default']).toEqual(config);
+        }));
+
+        it('should have two different configurations', inject(function($injector){
+            ngJcropConfigProvider.setConfig('diffName', {});
+            var ngJcropConfig = $injector.get('ngJcropConfig');
+
+            expect(ngJcropConfig['default']).not.toBeUndefined();
+            expect(ngJcropConfig['diffName']).not.toBeUndefined();
         }));
 
         it('should thrown an error if jquery isnt included', function(){
@@ -233,7 +242,27 @@ describe('ng-jcrop', function(){
                 scope.selection = null;
                 el = $compile('<div ng-jcrop="src" thumbnail="thumbnail" selection="selection"></div>')(scope);
                 ctrl = getController();
+            }));
 
+            it('with no selection', inject(function($compile){
+                scope.selection = null;
+                el = $compile('<div ng-jcrop="src" thumbnail="thumbnail" selection="selection"></div>')(scope);
+                ctrl = getController();
+            }));
+
+            it('throwing an exception if gives an unknown config name', inject(function($compile){
+                expect(function(){
+                    el = $compile('<div ng-jcrop="src" thumbnail="thumbnail" selection="selection" ng-jcrop-config-name="unknown"></div>')(scope);
+                }).toThrow('Unknown "unknown" config name');
+            }));
+
+            it('with the default config', inject(function($compile){
+                expect(scope.ngJcropConfigName).toBe('default');
+            }));
+
+            it('with a diff config', inject(function($compile){
+                ngJcropConfigProvider.setJcropConfig('diffConfig', {});
+                el = $compile('<div ng-jcrop="src" thumbnail="thumbnail" selection="selection" ng-jcrop-config-name="diffConfig"></div>')(scope);
             }));
 
         });
