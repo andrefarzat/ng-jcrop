@@ -1,4 +1,16 @@
 /* global angular:true */
+
+
+/**
+ * @typedef {object} Coords
+ * @property {number} x
+ * @property {number} y
+ * @property {number} x2
+ * @property {number} y2
+ * @property {number} w
+ * @property {number} h
+ */
+
 (function(angular){
     'use strict';
 
@@ -165,7 +177,7 @@
 
         /**
          * The coords of current selection
-         * @type {Array}
+         * @type {Coords[]}
          */
         $scope.coords = $scope.selection;
 
@@ -192,8 +204,7 @@
         };
 
         /**
-         * get the current shirnk ratio
-         * @type {}
+         * get the current shrink ratio
          */
         $scope.getShrinkRatio = function(){
             var img = $('<img>').attr('src', $scope.mainImg[0].src)[0];
@@ -215,8 +226,7 @@
 
         /**
          * set the `$scope.selection` and `$scope.originalSelection` variables
-         * @param {object} coords An object like this: {x: 1, y: 1, x2: 1, y2: 1, w: 1, h: 1}
-         * @param  {Image} img
+         * @param {Coords} coords An object like this: {x: 1, y: 1, x2: 1, y2: 1, w: 1, h: 1}
          */
         $scope.setSelection = function(coords){
             if( !angular.isArray($scope.coords) ){
@@ -245,6 +255,7 @@
 
         /**
          * Updates the preview regarding the coords form jCrop
+         * @param {Coords} coords
          */
         $scope.showPreview = function(coords){
             if( !$scope.selectionWatcher ){
@@ -286,7 +297,7 @@
                 config.setSelect = $scope.selection;
             }
 
-            $scope.jcrop = jQuery.Jcrop($scope.mainImg, config);
+            $scope.jcrop = jQuery.Jcrop($scope.mainImg[0], config);
         };
 
         /**
