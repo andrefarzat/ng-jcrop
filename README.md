@@ -91,7 +91,7 @@ app.controller('SomeController', function($scope){
 
 ### Testing
 
-It is necessary install karma and its dependencies
+It is necessary install `karma` and its dependencies
 ```shell
 npm install
 ```
@@ -100,3 +100,13 @@ Then you can run the tests
 ```shell
 npm test
 ```
+
+
+### Starting the demo page
+
+It is necessary install the `http-server`
+```shell
+npm install
+```
+
+Then you run `npm run serve` and access [`http://localhost:8080/demo`](http://localhost:8080/demo)
