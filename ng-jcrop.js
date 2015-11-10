@@ -129,10 +129,12 @@
             reader.readAsDataURL(image);
         };
 
-        $element.on('change', function(ev){
+        $scope.onChange = function(ev) {
             var image = ev.currentTarget.files[0];
             $scope.setImage(image);
-        });
+        };
+
+        $element.on('change', $scope.onChange);
 
     }])
 

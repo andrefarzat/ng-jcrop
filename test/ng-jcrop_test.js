@@ -340,7 +340,11 @@ describe('ng-jcrop', function(){
         }));
 
         it('should set a new image', inject(function($rootScope){
-            el.trigger('change')
+            spyOn(scope, 'setImage');
+            var ev = {currentTarget: {files: ["ARG_1"]}};
+
+            scope.onChange(ev);
+            expect(scope.setImage).toHaveBeenCalledWith("ARG_1");
         }));
     });
 
