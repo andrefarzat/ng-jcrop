@@ -161,8 +161,9 @@ describe('ng-jcrop', function(){
         it('should transform `selection` into an array in case it\'s not', function(){
             scope.initMainImage();
 
+            scope.coords = null;
             scope.selection = null;
-            scope.setSelection({x: 0, y: 0, x2: 0, y2: 0, w: 0, h: 0})
+            scope.setSelection({x: 0, y: 0, x2: 0, y2: 0, w: 0, h: 0});
             expect(scope.selection).toEqual([0, 0, 0, 0, 0, 0]);
         });
 
@@ -274,7 +275,8 @@ describe('ng-jcrop', function(){
                 var images = [
                     {ratio: 1.2125, maxWidth: 400, maxHeight: 400, src: '/base/test/485x411.jpg'},
                     {ratio: 1, maxWidth: 600, maxHeight: 400, src: '/base/test/485x411.jpg'},
-                    {ratio: 1, maxWidth: 400, maxHeight: 500, src: '/base/test/485x411.jpg'}
+                    {ratio: 1, maxWidth: 400, maxHeight: 500, src: '/base/test/485x411.jpg'},
+                    {ratio: 10, maxWidth: 30, maxHeight: 40, src: '/base/test/300x400.jpg'}
                 ];
 
                 angular.forEach(images, function(image){
