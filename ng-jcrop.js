@@ -16,6 +16,8 @@
 
     angular.module('ngJcrop', [])
 
+    .constant('FileReader', FileReader)
+
     .constant('ngJcroptDefaultConfig', {
         widthLimit: 1000,
         heightLimit: 1000,
@@ -111,25 +113,25 @@
 
     })
 
-    .controller('JcropInputController', ['$rootScope', '$element', '$scope',
-    function($rootScope, $element, $scope){
+    .controller('JcropInputController', ['$rootScope', '$element', '$scope', 'FileReader',
+    function($rootScope, $element, $scope, FileReader){
 
         if( $element[0].type !== 'file' ){
             throw new Error('ngJcropInput directive must be placed with an input[type="file"]');
         }
 
+        $scope.onFileReaderLoad = function(ev){
+            $rootScope.$broadcast('JcropChangeSrc', ev.target.result);
+            $element[0].value = '';
+        };
+
         $scope.setImage = function(image){
             var reader = new FileReader();
-
-            reader.onload = function(ev){
-                $rootScope.$broadcast('JcropChangeSrc', ev.target.result);
-                $element[0].value = '';
-            };
-
+            reader.onload = $scope.onFileReaderLoad;
             reader.readAsDataURL(image);
         };
 
-        $scope.onChange = function(ev) {
+        $scope.onChange = function(ev){
             var image = ev.currentTarget.files[0];
             $scope.setImage(image);
         };

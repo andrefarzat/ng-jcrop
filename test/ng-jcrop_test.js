@@ -311,16 +311,23 @@ describe('ng-jcrop', function(){
     });
 
     describe('JcropInputController', function(){
-        var ctrl, scope, el, getController;
+        var ctrl, scope, el, getController, FileReader;
 
         beforeEach(inject(function($controller, $rootScope, $compile){
             scope = $rootScope.$new();
             el = $compile('<input type="file" ng-jcrop-input />')(scope);
+            FileReader = function() {
+                this.readAsDataURL = function(){
+                    var ev = {target: {result: "THE_RESULT"}};
+                    this.onload(ev);
+                };
+            };
 
             getController = function(params){
                 params = params || {};
                 params.$scope = params.$scope || scope;
                 params.$element = params.$element || el;
+                params.FileReader = params.FileReader || FileReader;
                 return $controller('JcropInputController', params);
             };
 
@@ -342,11 +349,13 @@ describe('ng-jcrop', function(){
         }));
 
         it('should set a new image', inject(function($rootScope){
-            spyOn(scope, 'setImage');
+            spyOn(scope, 'setImage').andCallThrough();
+            spyOn(scope, 'onFileReaderLoad');
             var ev = {currentTarget: {files: ["ARG_1"]}};
 
             scope.onChange(ev);
             expect(scope.setImage).toHaveBeenCalledWith("ARG_1");
+            expect(scope.onFileReaderLoad).toHaveBeenCalledWith({target: {result: "THE_RESULT"}});
         }));
     });
 
