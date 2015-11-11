@@ -350,7 +350,7 @@ describe('ng-jcrop', function(){
 
         it('should set a new image', inject(function($rootScope){
             spyOn(scope, 'setImage').andCallThrough();
-            spyOn(scope, 'onFileReaderLoad');
+            spyOn(scope, 'onFileReaderLoad').andCallThrough();
             var ev = {currentTarget: {files: ["ARG_1"]}};
 
             scope.onChange(ev);
