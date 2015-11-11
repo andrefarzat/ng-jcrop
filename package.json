@@ -5,15 +5,16 @@
   "main": "ng-jcrop.js",
   "dependencies": {},
   "devDependencies": {
-    "bower": "~1.5.2",
-    "coveralls": "~2.11.1",
+    "bower": "^1.6.5",
+    "coveralls": "^2.11.1",
     "http-server": "^0.8.5",
-    "karma": "~0.12.21",
-    "karma-chrome-launcher": "~0.1.4",
-    "karma-coverage": "~0.2.6",
-    "karma-coveralls": "~0.1.4",
-    "karma-jasmine": "~0.1.5",
-    "karma-phantomjs-launcher": "~0.1.4"
+    "karma": "^0.13.15",
+    "karma-chrome-launcher": "^0.2.1",
+    "karma-coverage": "^0.5.3",
+    "karma-coveralls": "^1.1.2",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-jasmine": "~0.1.0",
+    "karma-phantomjs-launcher": "^0.2.1"
   },
   "scripts": {
     "postinstall": "bower install",
