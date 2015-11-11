@@ -1,8 +1,22 @@
 /* global angular:true */
+
+
+/**
+ * @typedef {object} Coords
+ * @property {number} x
+ * @property {number} y
+ * @property {number} x2
+ * @property {number} y2
+ * @property {number} w
+ * @property {number} h
+ */
+
 (function(angular){
     'use strict';
 
     angular.module('ngJcrop', [])
+
+    .constant('FileReader', FileReader)
 
     .constant('ngJcroptDefaultConfig', {
         widthLimit: 1000,
@@ -99,28 +113,30 @@
 
     })
 
-    .controller('JcropInputController', ['$rootScope', '$element', '$scope',
-    function($rootScope, $element, $scope){
+    .controller('JcropInputController', ['$rootScope', '$element', '$scope', 'FileReader',
+    function($rootScope, $element, $scope, FileReader){
 
         if( $element[0].type !== 'file' ){
             throw new Error('ngJcropInput directive must be placed with an input[type="file"]');
         }
 
+        $scope.onFileReaderLoad = function(ev){
+            $rootScope.$broadcast('JcropChangeSrc', ev.target.result);
+            $element[0].value = '';
+        };
+
         $scope.setImage = function(image){
             var reader = new FileReader();
-
-            reader.onload = function(ev){
-                $rootScope.$broadcast('JcropChangeSrc', ev.target.result);
-                $element[0].value = '';
-            };
-
+            reader.onload = $scope.onFileReaderLoad;
             reader.readAsDataURL(image);
         };
 
-        $element.on('change', function(ev){
+        $scope.onChange = function(ev){
             var image = ev.currentTarget.files[0];
             $scope.setImage(image);
-        });
+        };
+
+        $element.on('change', $scope.onChange);
 
     }])
 
@@ -165,7 +181,7 @@
 
         /**
          * The coords of current selection
-         * @type {Array}
+         * @type {Coords[]}
          */
         $scope.coords = $scope.selection;
 
@@ -192,8 +208,7 @@
         };
 
         /**
-         * get the current shirnk ratio
-         * @type {}
+         * get the current shrink ratio
          */
         $scope.getShrinkRatio = function(){
             var img = $('<img>').attr('src', $scope.mainImg[0].src)[0];
@@ -215,8 +230,7 @@
 
         /**
          * set the `$scope.selection` and `$scope.originalSelection` variables
-         * @param {object} coords An object like this: {x: 1, y: 1, x2: 1, y2: 1, w: 1, h: 1}
-         * @param  {Image} img
+         * @param {Coords} coords An object like this: {x: 1, y: 1, x2: 1, y2: 1, w: 1, h: 1}
          */
         $scope.setSelection = function(coords){
             if( !angular.isArray($scope.coords) ){
@@ -245,6 +259,7 @@
 
         /**
          * Updates the preview regarding the coords form jCrop
+         * @param {Coords} coords
          */
         $scope.showPreview = function(coords){
             if( !$scope.selectionWatcher ){
@@ -286,7 +301,7 @@
                 config.setSelect = $scope.selection;
             }
 
-            $scope.jcrop = jQuery.Jcrop($scope.mainImg, config);
+            $scope.jcrop = jQuery.Jcrop($scope.mainImg[0], config);
         };
 
         /**

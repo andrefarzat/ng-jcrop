@@ -161,8 +161,9 @@ describe('ng-jcrop', function(){
         it('should transform `selection` into an array in case it\'s not', function(){
             scope.initMainImage();
 
+            scope.coords = null;
             scope.selection = null;
-            scope.setSelection({x: 0, y: 0, x2: 0, y2: 0, w: 0, h: 0})
+            scope.setSelection({x: 0, y: 0, x2: 0, y2: 0, w: 0, h: 0});
             expect(scope.selection).toEqual([0, 0, 0, 0, 0, 0]);
         });
 
@@ -274,7 +275,8 @@ describe('ng-jcrop', function(){
                 var images = [
                     {ratio: 1.2125, maxWidth: 400, maxHeight: 400, src: '/base/test/485x411.jpg'},
                     {ratio: 1, maxWidth: 600, maxHeight: 400, src: '/base/test/485x411.jpg'},
-                    {ratio: 1, maxWidth: 400, maxHeight: 500, src: '/base/test/485x411.jpg'}
+                    {ratio: 1, maxWidth: 400, maxHeight: 500, src: '/base/test/485x411.jpg'},
+                    {ratio: 10, maxWidth: 30, maxHeight: 40, src: '/base/test/300x400.jpg'}
                 ];
 
                 angular.forEach(images, function(image){
@@ -309,16 +311,23 @@ describe('ng-jcrop', function(){
     });
 
     describe('JcropInputController', function(){
-        var ctrl, scope, el, getController;
+        var ctrl, scope, el, getController, FileReader;
 
         beforeEach(inject(function($controller, $rootScope, $compile){
             scope = $rootScope.$new();
             el = $compile('<input type="file" ng-jcrop-input />')(scope);
+            FileReader = function() {
+                this.readAsDataURL = function(){
+                    var ev = {target: {result: "THE_RESULT"}};
+                    this.onload(ev);
+                };
+            };
 
             getController = function(params){
                 params = params || {};
                 params.$scope = params.$scope || scope;
                 params.$element = params.$element || el;
+                params.FileReader = params.FileReader || FileReader;
                 return $controller('JcropInputController', params);
             };
 
@@ -340,7 +349,13 @@ describe('ng-jcrop', function(){
         }));
 
         it('should set a new image', inject(function($rootScope){
-            el.trigger('change')
+            spyOn(scope, 'setImage').andCallThrough();
+            spyOn(scope, 'onFileReaderLoad').andCallThrough();
+            var ev = {currentTarget: {files: ["ARG_1"]}};
+
+            scope.onChange(ev);
+            expect(scope.setImage).toHaveBeenCalledWith("ARG_1");
+            expect(scope.onFileReaderLoad).toHaveBeenCalledWith({target: {result: "THE_RESULT"}});
         }));
     });
 
