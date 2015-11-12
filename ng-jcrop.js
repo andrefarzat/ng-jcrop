@@ -1,5 +1,5 @@
 /* global angular:true */
-
+/* global document:true */
 
 /**
  * @typedef {object} Coords
@@ -97,7 +97,7 @@
 
         return {
             restrict: 'A',
-            scope: { ngJcrop: '=', thumbnail: '=', selection: '=', ngJcropConfigName: '@' },
+            scope: { ngJcrop: '=', thumbnail: '=', selection: '=', ngJcropConfigName: '@', thumbnailWrapperSelector: '@' },
             template: ngJcropConfig.template,
             controller: 'JcropController'
         };
@@ -337,7 +337,24 @@
             $scope.imageWrapper = $element.find('.ng-jcrop-image-wrapper');
             $scope.imageWrapper.empty().append($scope.mainImg);
 
-            $scope.previewImg = $element.find('.ng-jcrop-thumbnail');
+            var ngJcropThumbnailWrapper = $element.find('.ng-jcrop-thumbnail-wrapper');
+            var ngJcropThumbnail = $element.find('.ng-jcrop-thumbnail');
+
+            // get thumbnailWrapperSelector if parameter exist (optional directive parameter)
+            if ($scope.thumbnailWrapperSelector) {
+                var thumbnailWrapperSelector = angular.element(document.querySelector($scope.thumbnailWrapperSelector));
+                thumbnailWrapperSelector.css($scope.previewImgStyle);
+
+                $scope.previewImg = thumbnailWrapperSelector.find('img');
+                // if thumbnailWrapperSelector doesn't contains an img tag, we add it
+                if (!$scope.previewImg.length) {
+                    thumbnailWrapperSelector.append('<img>');
+                    $scope.previewImg = thumbnailWrapperSelector.find('img');
+                }
+                ngJcropThumbnailWrapper.hide();
+            } else {
+                $scope.previewImg = ngJcropThumbnail;
+            }
             $scope.previewImg.attr('src', src);
         };
 
