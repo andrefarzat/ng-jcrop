@@ -89,6 +89,12 @@ app.controller('SomeController', function($scope){
 <div ng-jcrop="obj.src" selection="obj.coords" thumbnail="obj.thumbnail"></div>
 ````
 
+It's possible to send a class as parameter to the directive (thumbnail-wrapper-selector). this allow to display the thumbnail anywhere in the page.
+
+```html
+<div ng-jcrop="obj.src" selection="obj.coords" thumbnail="obj.thumbnail" thumbnail-wrapper-selector=".wrapper-result"></div>
+````
+
 ### Testing
 
 It is necessary install `karma` and its dependencies
