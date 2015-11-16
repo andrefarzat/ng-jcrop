@@ -290,7 +290,11 @@
          */
         $scope.onMainImageLoad = function(){
             $scope.mainImg.off('load', $scope.onMainImageLoad);
-            $scope.updateCurrentSizes($('<img>').attr('src', $scope.mainImg[0].src)[0]);
+            var imgThumbnail = $('<img>').attr('src', $scope.mainImg[0].src)[0];
+            imgThumbnail.onload = function () {
+                $scope.updateCurrentSizes(imgThumbnail);
+                $scope.$digest();
+            };
 
             var config = angular.extend({
                 onChange: $scope.showPreview,
