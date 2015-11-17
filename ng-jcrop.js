@@ -207,11 +207,12 @@
             }
         };
 
+
         /**
          * get the current shrink ratio
          */
         $scope.getShrinkRatio = function(){
-            var img = $('<img>').attr('src', $scope.mainImg[0].src)[0];
+            var img = $scope.imgStored;
 
             if(ngJcropConfig.jcrop.maxWidth > img.width || ngJcropConfig.jcrop.maxHeight > img.height){
                 return 1;
@@ -290,22 +291,25 @@
          */
         $scope.onMainImageLoad = function(){
             $scope.mainImg.off('load', $scope.onMainImageLoad);
-            var imgThumbnail = $('<img>').attr('src', $scope.mainImg[0].src)[0];
-            imgThumbnail.onload = function () {
-                $scope.updateCurrentSizes(imgThumbnail);
+
+            // we put the image inside scope to avoid multiple get of the image
+            $scope.imgStored = $('<img>').attr('src', $scope.mainImg[0].src)[0];
+            $scope.imgStored.onload = function () {
+                $scope.updateCurrentSizes($scope.imgStored);
                 $scope.$digest();
+
+                var config = angular.extend({
+                    onChange: $scope.showPreview,
+                    onSelect: $scope.showPreview
+                }, ngJcropConfig.jcrop);
+
+                if( $scope.selection && $scope.selection.length === 6 ){
+                    config.setSelect = $scope.selection;
+                }
+
+                $scope.jcrop = jQuery.Jcrop($scope.mainImg[0], config);
             };
 
-            var config = angular.extend({
-                onChange: $scope.showPreview,
-                onSelect: $scope.showPreview
-            }, ngJcropConfig.jcrop);
-
-            if( $scope.selection && $scope.selection.length === 6 ){
-                config.setSelect = $scope.selection;
-            }
-
-            $scope.jcrop = jQuery.Jcrop($scope.mainImg[0], config);
         };
 
         /**
