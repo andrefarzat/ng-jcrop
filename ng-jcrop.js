@@ -14,6 +14,10 @@
 (function(angular){
     'use strict';
 
+    // if FileReader doesn't exist, we put an empty function to prevent older browers to yelling
+    // TODO We can enventually use a flash callback or an alternative
+    var FileReader = FileReader || function() {};
+
     angular.module('ngJcrop', [])
 
     .constant('FileReader', FileReader)
