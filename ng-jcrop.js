@@ -213,7 +213,7 @@
         $scope.getShrinkRatio = function(){
             var img = $('<img>').attr('src', $scope.mainImg[0].src)[0];
 
-            if(ngJcropConfig.jcrop.maxWidth > img.width || ngJcropConfig.jcrop.maxHeight > img.height){
+            if(ngJcropConfig.jcrop.maxWidth > img.width && ngJcropConfig.jcrop.maxHeight > img.height){
                 return 1;
             }
 
