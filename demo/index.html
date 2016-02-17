@@ -70,6 +70,19 @@
             $scope.obj.thumbnail = true;
         });
 
+        app.controller('DemoController4', function($scope){
+            $scope.obj = {};
+
+            // The url or the data64 for the image
+            $scope.obj.src = '/demo/redpanda-800x480.jpg';
+
+            // Must be [x, y, x2, y2, w, h]
+            $scope.obj.selection = [10, 10, 110, 110, 100, 50];
+
+            // You can add a thumbnail if you want
+            $scope.obj.thumbnail = true;
+        });
+
 
     })();
 </script>
@@ -133,6 +146,29 @@
     <div class="row" ng-controller="DemoController3">
         <div class="one-half column">
             <h2>200 x 400 <small style="font-size: 0.6em;">(<a ng-href="{{ obj.src }}">see image</a>)</small></h2>
+            <div ng-jcrop="obj.src" selection="obj.selection" thumbnail="obj.thumbnail"></div>
+        </div>
+
+        <div class="one-half column">
+            <table>
+                <tbody>
+                <tr>
+                    <td><strong>x</strong>: <span ng-bind="obj.selection[0]"></span></td>
+                    <td><strong>y</strong>: <span ng-bind="obj.selection[1]"></span></td>
+                    <td><strong>x2</strong>: <span ng-bind="obj.selection[2]"></span></td>
+                    <td><strong>y2</strong>: <span ng-bind="obj.selection[3]"></span></td>
+                    <td><strong>w</strong>: <span ng-bind="obj.selection[4]"></span></td>
+                    <td><strong>h</strong>: <span ng-bind="obj.selection[5]"></span></td>
+                </tr>
+                </tbody>
+            </table>
+            <label><input type="checkbox" ng-model="obj.thumbnail" /> Thumbnail</label>
+        </div>
+    </div>
+
+    <div class="row" ng-controller="DemoController4">
+        <div class="one-half column">
+            <h2>800 x 480 <small style="font-size: 0.6em;">(<a ng-href="{{ obj.src }}">see image</a>)</small></h2>
             <div ng-jcrop="obj.src" selection="obj.selection" thumbnail="obj.thumbnail"></div>
         </div>
 
