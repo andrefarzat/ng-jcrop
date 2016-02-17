@@ -1,5 +1,5 @@
 /* global angular:true */
-
+/* global document:true */
 
 /**
  * @typedef {object} Coords
@@ -13,6 +13,10 @@
 
 (function(angular){
     'use strict';
+
+    // if FileReader doesn't exist, we put an empty function to prevent older browers to yelling
+    // TODO We can enventually use a flash callback or an alternative
+    var FileReader = FileReader || function() {};
 
     angular.module('ngJcrop', [])
 
@@ -97,7 +101,7 @@
 
         return {
             restrict: 'A',
-            scope: { ngJcrop: '=', thumbnail: '=', selection: '=', ngJcropConfigName: '@' },
+            scope: { ngJcrop: '=', thumbnail: '=', selection: '=', ngJcropConfigName: '@', thumbnailWrapperSelector: '@' },
             template: ngJcropConfig.template,
             controller: 'JcropController'
         };
@@ -207,11 +211,12 @@
             }
         };
 
+
         /**
          * get the current shrink ratio
          */
         $scope.getShrinkRatio = function(){
-            var img = $('<img>').attr('src', $scope.mainImg[0].src)[0];
+            var img = $scope.imgStored;
 
             if(ngJcropConfig.jcrop.maxWidth > img.width && ngJcropConfig.jcrop.maxHeight > img.height){
                 return 1;
@@ -290,18 +295,25 @@
          */
         $scope.onMainImageLoad = function(){
             $scope.mainImg.off('load', $scope.onMainImageLoad);
-            $scope.updateCurrentSizes($('<img>').attr('src', $scope.mainImg[0].src)[0]);
 
-            var config = angular.extend({
-                onChange: $scope.showPreview,
-                onSelect: $scope.showPreview
-            }, ngJcropConfig.jcrop);
+            // we put the image inside scope to avoid multiple get of the image
+            $scope.imgStored = $('<img>').attr('src', $scope.mainImg[0].src)[0];
+            $scope.imgStored.onload = function () {
+                $scope.updateCurrentSizes($scope.imgStored);
+                $scope.$digest();
 
-            if( $scope.selection && $scope.selection.length === 6 ){
-                config.setSelect = $scope.selection;
-            }
+                var config = angular.extend({
+                    onChange: $scope.showPreview,
+                    onSelect: $scope.showPreview
+                }, ngJcropConfig.jcrop);
 
-            $scope.jcrop = jQuery.Jcrop($scope.mainImg[0], config);
+                if( $scope.selection && $scope.selection.length === 6 ){
+                    config.setSelect = $scope.selection;
+                }
+
+                $scope.jcrop = jQuery.Jcrop($scope.mainImg[0], config);
+            };
+
         };
 
         /**
@@ -337,7 +349,24 @@
             $scope.imageWrapper = $element.find('.ng-jcrop-image-wrapper');
             $scope.imageWrapper.empty().append($scope.mainImg);
 
-            $scope.previewImg = $element.find('.ng-jcrop-thumbnail');
+            var ngJcropThumbnailWrapper = $element.find('.ng-jcrop-thumbnail-wrapper');
+            var ngJcropThumbnail = $element.find('.ng-jcrop-thumbnail');
+
+            // get thumbnailWrapperSelector if parameter exist (optional directive parameter)
+            if ($scope.thumbnailWrapperSelector) {
+                var thumbnailWrapperSelector = angular.element(document.querySelector($scope.thumbnailWrapperSelector));
+                thumbnailWrapperSelector.css($scope.previewImgStyle);
+
+                $scope.previewImg = thumbnailWrapperSelector.find('img');
+                // if thumbnailWrapperSelector doesn't contains an img tag, we add it
+                if (!$scope.previewImg.length) {
+                    thumbnailWrapperSelector.append('<img>');
+                    $scope.previewImg = thumbnailWrapperSelector.find('img');
+                }
+                ngJcropThumbnailWrapper.hide();
+            } else {
+                $scope.previewImg = ngJcropThumbnail;
+            }
             $scope.previewImg.attr('src', src);
         };
 
