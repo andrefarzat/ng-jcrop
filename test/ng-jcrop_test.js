@@ -274,9 +274,10 @@ describe('ng-jcrop', function(){
             it('should return the correct Shrink Ratio', function(){
                 var images = [
                     {ratio: 1.2125, maxWidth: 400, maxHeight: 400, src: '/base/test/485x411.jpg'},
-                    {ratio: 1, maxWidth: 600, maxHeight: 400, src: '/base/test/485x411.jpg'},
-                    {ratio: 1, maxWidth: 400, maxHeight: 500, src: '/base/test/485x411.jpg'},
-                    {ratio: 10, maxWidth: 30, maxHeight: 40, src: '/base/test/300x400.jpg'}
+                    {ratio: 1.0275, maxWidth: 600, maxHeight: 400, src: '/base/test/485x411.jpg'},
+                    {ratio: 1.2125, maxWidth: 400, maxHeight: 500, src: '/base/test/485x411.jpg'},
+                    {ratio: 10, maxWidth: 30, maxHeight: 40, src: '/base/test/300x400.jpg'},
+                    {ratio: 1, maxWidth: 900, maxHeight: 190, src: '/base/test/1000x200.jpg'}
                 ];
 
                 angular.forEach(images, function(image){

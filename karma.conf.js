@@ -15,10 +15,11 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'test/function.prototype.bind.js',
       'bower_components/jquery/dist/jquery.js',
       'bower_components/jcrop/js/jquery.Jcrop.js',
       'bower_components/angular/angular.js',
-      'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/angular-mocks/angular-mocks.js'
       'ng-jcrop.js',
       'test/ng-jcrop_test.js',
       {pattern: 'test/*.gif', watched: false, included: false, served: true},
