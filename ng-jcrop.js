@@ -107,6 +107,7 @@
     .directive('ngJcropInput', function(){
 
         return {
+            scope: {ngJcropInput: '@'},
             restrict: 'A',
             controller: 'JcropInputController'
         };
@@ -115,13 +116,13 @@
 
     .controller('JcropInputController', ['$rootScope', '$element', '$scope', 'FileReader',
     function($rootScope, $element, $scope, FileReader){
-
         if( $element[0].type !== 'file' ){
             throw new Error('ngJcropInput directive must be placed with an input[type="file"]');
         }
 
         $scope.onFileReaderLoad = function(ev){
-            $rootScope.$broadcast('JcropChangeSrc', ev.target.result);
+            var configName = $scope.ngJcropInput || 'default';
+            $rootScope.$broadcast('JcropChangeSrc', ev.target.result, configName);
             $element[0].value = '';
         };
 
@@ -343,7 +344,11 @@
 
         $scope.$on('$destroy', $scope.destroy);
 
-        $scope.$on('JcropChangeSrc', function(ev, src){
+        $scope.$on('JcropChangeSrc', function(ev, src, configName){
+
+            if ($scope.ngJcropConfigName !== configName) {
+                return; // To update only the correct configured jCrop instances
+            }
 
             $scope.$apply(function(){
                 $scope.setSelection({
