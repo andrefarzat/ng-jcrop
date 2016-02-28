@@ -19,7 +19,7 @@ module.exports = function(config) {
       'bower_components/jquery/dist/jquery.js',
       'bower_components/jcrop/js/jquery.Jcrop.js',
       'bower_components/angular/angular.js',
-      'bower_components/angular-mocks/angular-mocks.js'
+      'bower_components/angular-mocks/angular-mocks.js',
       'ng-jcrop.js',
       'test/ng-jcrop_test.js',
       {pattern: 'test/*.gif', watched: false, included: false, served: true},

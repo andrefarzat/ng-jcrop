@@ -19,8 +19,8 @@
   },
   "scripts": {
     "postinstall": "bower install",
-    "test": "./node_modules/karma/bin/karma start",
-    "citest": "./node_modules/karma/bin/karma start karma.travis.conf.js",
+    "test": "karma start",
+    "citest": "karma start karma.travis.conf.js",
     "serve": "http-server"
   },
   "repository": {

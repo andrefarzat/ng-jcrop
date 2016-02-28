@@ -152,7 +152,7 @@ describe('ng-jcrop', function(){
 
         it('should reset the config when JcropChangeSrc is triggered', function(){
             spyOn(scope, 'setSelection');
-            scope.$emit('JcropChangeSrc', 'new-src.png');
+            scope.$emit('JcropChangeSrc', 'new-src.png', 'default');
 
             expect(scope.setSelection).toHaveBeenCalled();
             expect(scope.ngJcrop).toBe('new-src.png');
