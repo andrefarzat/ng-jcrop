@@ -194,7 +194,8 @@
             var widthShrinkRatio = img.width / ngJcropConfig.jcrop.maxWidth,
                 heightShrinkRatio = img.height / ngJcropConfig.jcrop.maxHeight,
                 widthConstraining = img.width > ngJcropConfig.jcrop.maxWidth && widthShrinkRatio > heightShrinkRatio,
-                heightConstraining = img.height > ngJcropConfig.jcrop.maxHeight && heightShrinkRatio > widthShrinkRatio;
+                heightConstraining = img.height > ngJcropConfig.jcrop.maxHeight && heightShrinkRatio > widthShrinkRatio,
+                squareConstraining = img.height === img.width && img.width > ngJcropConfig.jcrop.maxWidth;
 
             if (widthConstraining) {
                 $scope.imgStyle.width = ngJcropConfig.jcrop.maxWidth;
@@ -202,6 +203,9 @@
             } else if (heightConstraining) {
                 $scope.imgStyle.height = ngJcropConfig.jcrop.maxHeight;
                 $scope.imgStyle.width = img.width / heightShrinkRatio;
+            } else if (squareConstraining) {
+                $scope.imgStyle.height = ngJcropConfig.jcrop.maxHeight;
+                $scope.imgStyle.width = ngJcropConfig.jcrop.maxWidth;
             } else {
                 $scope.imgStyle.height = img.height;
                 $scope.imgStyle.width = img.width;
