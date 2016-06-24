@@ -18,6 +18,7 @@
 <script>
     (function(){
         var app = angular.module('ngJcropDemo', ['ngJcrop']);
+        var baseUrl = '';
 
         app.config(function(ngJcropConfigProvider){
 
@@ -44,7 +45,7 @@
             $scope.obj = {};
 
             // The url or the data64 for the image
-            $scope.obj.src = '/redpanda-640x480.jpg';
+            $scope.obj.src = baseUrl + 'redpanda-640x480.jpg';
 
             // Must be [x, y, x2, y2, w, h]
             $scope.obj.selection = [100, 100, 200, 200, 100, 100];
@@ -57,7 +58,7 @@
             $scope.obj = {};
 
             // The url or the data64 for the image
-            $scope.obj.src = '/redpanda-350x427.jpg';
+            $scope.obj.src = baseUrl + 'redpanda-350x427.jpg';
 
             // Must be [x, y, x2, y2, w, h]
             $scope.obj.selection = [100, 100, 200, 200, 100, 100];
@@ -70,7 +71,7 @@
             $scope.obj = {};
 
             // The url or the data64 for the image
-            $scope.obj.src = '/redpanda-200x400.jpg';
+            $scope.obj.src = baseUrl + 'redpanda-200x400.jpg';
 
             // Must be [x, y, x2, y2, w, h]
             $scope.obj.selection = [10, 10, 110, 110, 100, 50];
@@ -83,7 +84,7 @@
             $scope.obj = {};
 
             // The url or the data64 for the image
-            $scope.obj.src = '/redpanda-800x480.jpg';
+            $scope.obj.src = baseUrl + 'redpanda-800x480.jpg';
 
             // Must be [x, y, x2, y2, w, h]
             $scope.obj.selection = [10, 10, 110, 110, 100, 50];
