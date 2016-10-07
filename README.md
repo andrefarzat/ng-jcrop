@@ -60,6 +60,14 @@ app.config(function(ngJcropConfigProvider){
         bgOpacity: .4,
         aspectRatio: 16 / 9
     });
+    
+    // [optional] A configuration can have a name as its first parameter,
+    // so you can have multiple configurations in the same app
+    ngJcropConfigProvider.setJcropConfig('anotherConfig', {
+        bgColor: 'white',
+        bgOpacity: .2,
+        aspectRatio: 4 / 3
+    });
 
     // [optional] To change the css style in the preview image
     ngJcropConfigProvider.setPreviewStyle({
@@ -85,8 +93,11 @@ app.controller('SomeController', function($scope){
 });
 </script>
 
-
+<!-- Using the default configuration -->
 <div ng-jcrop="obj.src" selection="obj.coords" thumbnail="obj.thumbnail"></div>
+
+<!-- Using configuration name 'anotherConfig' -->
+<div ng-jcrop="obj.src" ng-jcrop-config-name="anotherConfig" selection="obj.coords" thumbnail="obj.thumbnail"></div>
 ````
 
 ### Testing
