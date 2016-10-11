@@ -60,7 +60,7 @@ app.config(function(ngJcropConfigProvider){
         bgOpacity: .4,
         aspectRatio: 16 / 9
     });
-    
+
     // [optional] A configuration can have a name as its first parameter,
     // so you can have multiple configurations in the same app
     ngJcropConfigProvider.setJcropConfig('anotherConfig', {
@@ -120,4 +120,4 @@ It is necessary install the `http-server`
 npm install
 ```
 
-Then you run `npm run serve` and access [`http://localhost:8080/demo`](http://localhost:8080/demo)
+Then you run `npm start` and access [`http://localhost:8080/demo`](http://localhost:8080/demo)

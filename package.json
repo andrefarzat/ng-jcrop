@@ -21,7 +21,8 @@
     "postinstall": "bower install",
     "test": "karma start",
     "citest": "karma start karma.travis.conf.js",
-    "serve": "http-server"
+    "serve": "echo 'Deprecated. Please use \"npm start\" instead.'",
+    "start": "http-server"
   },
   "repository": {
     "type": "git",
