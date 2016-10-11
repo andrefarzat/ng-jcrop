@@ -99,7 +99,7 @@ describe('ng-jcrop', function(){
 
 
     describe('JcropController', function(){
-        var ctrl, scope, el, getController;
+        var ctrl, scope, el, getController, compile;
 
         beforeEach(inject(function($controller, $rootScope, $compile){
             scope = $rootScope.$new();
@@ -245,12 +245,6 @@ describe('ng-jcrop', function(){
                 ctrl = getController();
             }));
 
-            it('with no selection', inject(function($compile){
-                scope.selection = null;
-                el = $compile('<div ng-jcrop="src" thumbnail="thumbnail" selection="selection"></div>')(scope);
-                ctrl = getController();
-            }));
-
             it('throwing an exception if gives an unknown config name', inject(function($compile){
                 expect(function(){
                     el = $compile('<div ng-jcrop="src" thumbnail="thumbnail" selection="selection" ng-jcrop-config-name="unknown"></div>')(scope);
@@ -335,8 +329,8 @@ describe('ng-jcrop', function(){
             ctrl = getController();
         }));
 
-        it('should fail if it isnt an input[type="file"]', inject(function($controller, $compile){
-            var err = new Error('ngJcropInput directive must be placed with an input[type="file"]');
+        it('should fail if it isnt an input[type="file"] or input[type="url"]', inject(function($controller, $compile){
+            var err = new Error('ngJcropInput directive must be placed with an input[type="file"] or input[type="url"]');
 
             var fn = function(){
                 el = $compile('<div ng-jcrop-input></div>')(scope);
@@ -349,7 +343,7 @@ describe('ng-jcrop', function(){
             expect(fn).toThrow(err);
         }));
 
-        it('should set a new image', inject(function($rootScope){
+        it('should set a new image in a input[type="file"]', inject(function($rootScope){
             spyOn(scope, 'setImage').andCallThrough();
             spyOn(scope, 'onFileReaderLoad').andCallThrough();
             var ev = {currentTarget: {files: ["ARG_1"]}};
@@ -357,6 +351,18 @@ describe('ng-jcrop', function(){
             scope.onChange(ev);
             expect(scope.setImage).toHaveBeenCalledWith("ARG_1");
             expect(scope.onFileReaderLoad).toHaveBeenCalledWith({target: {result: "THE_RESULT"}});
+        }));
+
+        iit('should set a new image in a input[type="url"]', inject(function($rootScope, $compile){
+            var scope = $rootScope.$new();
+            var el = $compile('<input type="url" ng-jcrop-input />')(scope);
+            el[0].value = '/base/test/13x13.png';
+
+            ctrl = getController({$scope: scope, $element: el});
+            spyOn(scope, 'setUrl');
+
+            el.trigger('change');
+            expect(scope.setUrl).toHaveBeenCalledWith('/base/test/13x13.png');
         }));
     });
 

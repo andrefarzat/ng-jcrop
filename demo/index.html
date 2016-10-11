@@ -38,6 +38,15 @@
                 maxHeight: 300
             });
 
+            // Used to differ the url example
+            ngJcropConfigProvider.setJcropConfig('url-config', {
+                bgColor: 'black',
+                bgOpacity: .4,
+                aspectRatio: 1,
+                maxWidth: 300,
+                maxHeight: 300,
+                eventName: 'blur'
+            });
         });
 
         app.controller('DemoController', function($scope){
@@ -92,7 +101,11 @@
             $scope.obj.thumbnail = true;
         });
 
-        app.controller('DemoControllerUpload', function($scope){
+        app.controller('UploadDemoController', function($scope){
+            $scope.obj = {src:"", selection: [], thumbnail: true};
+        });
+
+        app.controller('UrlDemoController', function($scope){
             $scope.obj = {src:"", selection: [], thumbnail: true};
         });
 
@@ -201,11 +214,35 @@
         </div>
     </div>
 
-    <div class="row" ng-controller="DemoControllerUpload">
+    <div class="row" ng-controller="UploadDemoController">
         <div class="one-half column">
             <h2>Upload an image</h2>
             <input type="file" ng-jcrop-input="upload" />
             <div ng-jcrop="obj.src" ng-jcrop-config-name="upload" selection="obj.selection" thumbnail="obj.thumbnail"></div>
+        </div>
+
+        <div class="one-half column">
+            <table>
+                <tbody>
+                <tr>
+                    <td><strong>x</strong>: <span ng-bind="obj.selection[0]"></span></td>
+                    <td><strong>y</strong>: <span ng-bind="obj.selection[1]"></span></td>
+                    <td><strong>x2</strong>: <span ng-bind="obj.selection[2]"></span></td>
+                    <td><strong>y2</strong>: <span ng-bind="obj.selection[3]"></span></td>
+                    <td><strong>w</strong>: <span ng-bind="obj.selection[4]"></span></td>
+                    <td><strong>h</strong>: <span ng-bind="obj.selection[5]"></span></td>
+                </tr>
+                </tbody>
+            </table>
+            <label><input type="checkbox" ng-model="obj.thumbnail" /> Thumbnail</label>
+        </div>
+    </div>
+
+    <div class="row" ng-controller="UrlDemoController">
+        <div class="one-half column">
+            <h2>Add by Url</h2>
+            <input type="url" ng-jcrop-input="url-config" />
+            <div ng-jcrop="obj.src" ng-jcrop-config-name="url-config" selection="obj.selection" thumbnail="obj.thumbnail"></div>
         </div>
 
         <div class="one-half column">

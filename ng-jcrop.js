@@ -22,6 +22,7 @@
         widthLimit: 1000,
         heightLimit: 1000,
         previewImgStyle: {'width': '100px', 'height': '100px', 'overflow': 'hidden', 'margin-left': '5px'},
+        eventName: 'change',
         jcrop: {
             aspectRatio: 1,
             maxWidth: 300,
@@ -114,31 +115,44 @@
 
     })
 
-    .controller('JcropInputController', ['$rootScope', '$element', '$scope', 'FileReader',
-    function($rootScope, $element, $scope, FileReader){
-        if( $element[0].type !== 'file' ){
-            throw new Error('ngJcropInput directive must be placed with an input[type="file"]');
+    .controller('JcropInputController', ['$rootScope', '$element', '$scope', 'FileReader', 'ngJcropConfig',
+    function($rootScope, $element, $scope, FileReader, ngJcropConfig){
+        var configName = $scope.ngJcropInput || 'default';
+        ngJcropConfig  = ngJcropConfig[configName];
+
+        if ($element[0].type === 'file') {
+            // Treating the input[type="file"]
+            $scope.onFileReaderLoad = function(ev){
+                $rootScope.$broadcast('JcropChangeSrc', ev.target.result, configName);
+                $element[0].value = '';
+            };
+
+            $scope.setImage = function(image){
+                var reader = new FileReader();
+                reader.onload = $scope.onFileReaderLoad;
+                reader.readAsDataURL(image);
+            };
+
+            $scope.onChange = function(ev){
+                var image = ev.currentTarget.files[0];
+                $scope.setImage(image);
+            };
+        } else if ($element[0].type === 'url') {
+            // Treating the input[type="url"]
+            $scope.setUrl = function(url) {
+                $rootScope.$broadcast('JcropChangeSrc', url, configName);
+            };
+
+            $scope.onChange = function(ev) {
+                var url = ev.currentTarget.value;
+                $scope.setUrl(url);
+            };
+        } else {
+            // None of them? Error!
+            throw new Error('ngJcropInput directive must be placed with an input[type="file"] or input[type="url"]');
         }
 
-        $scope.onFileReaderLoad = function(ev){
-            var configName = $scope.ngJcropInput || 'default';
-            $rootScope.$broadcast('JcropChangeSrc', ev.target.result, configName);
-            $element[0].value = '';
-        };
-
-        $scope.setImage = function(image){
-            var reader = new FileReader();
-            reader.onload = $scope.onFileReaderLoad;
-            reader.readAsDataURL(image);
-        };
-
-        $scope.onChange = function(ev){
-            var image = ev.currentTarget.files[0];
-            $scope.setImage(image);
-        };
-
-        $element.on('change', $scope.onChange);
-
+        $element.on(ngJcropConfig.eventName, $scope.onChange);
     }])
 
     .controller('JcropController', ['$scope', '$element', 'ngJcropConfig',
