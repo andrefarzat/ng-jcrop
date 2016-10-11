@@ -353,7 +353,7 @@ describe('ng-jcrop', function(){
             expect(scope.onFileReaderLoad).toHaveBeenCalledWith({target: {result: "THE_RESULT"}});
         }));
 
-        iit('should set a new image in a input[type="url"]', inject(function($rootScope, $compile){
+        it('should set a new image in a input[type="url"]', inject(function($rootScope, $compile){
             var scope = $rootScope.$new();
             var el = $compile('<input type="url" ng-jcrop-input />')(scope);
             el[0].value = '/base/test/13x13.png';
