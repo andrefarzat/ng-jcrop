@@ -125,7 +125,7 @@ Then you run `npm start` and access [`http://localhost:8080/demo`](http://localh
 
 ### FAQ
 
-#### How to get the source of a selected image? (related issue: https://github.com/andrefarzat/ng-jcrop/issues/37)
+#### How to get the source of a selected image? (related issue: [#37](https://github.com/andrefarzat/ng-jcrop/issues/37))
 Once the user selects an image, the `$rootScope` broadcasts the `JcropChangeSrc` passing
 the image (as dataURL) and the `configName`. Example:
 ```js
