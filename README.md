@@ -120,7 +120,7 @@ It is necessary install the `http-server`
 npm install
 ```
 
-Then you run `npm start` and access [`http://localhost:8080/demo`](http://localhost:8080/demo)
+Then you run `npm start` and access [`http://localhost:8080/demo/`](http://localhost:8080/demo/)
 
 
 ### FAQ
