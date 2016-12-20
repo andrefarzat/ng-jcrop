@@ -11,14 +11,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.12/js/jquery.Jcrop.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
-    <script src="https://rawgit.com/andrefarzat/ng-jcrop/master/ng-jcrop.js"></script>
+    <script>(function(){
+        if (document.location.hostname === 'localhost') {
+            document.write('<scr'+'ipt src="/ng-jcrop.js"></scr'+ 'ipt>');
+        } else {
+            document.write('<scr'+'ipt src="https://rawgit.com/andrefarzat/ng-jcrop/master/ng-jcrop.js"></scr'+ 'ipt>');
+        }
+    })();</script>
 </head>
 <body ng-app="ngJcropDemo">
 
 <script>
     (function(){
         var app = angular.module('ngJcropDemo', ['ngJcrop']);
-        var baseUrl = '';
 
         app.config(function(ngJcropConfigProvider){
 
@@ -30,7 +35,7 @@
                 maxHeight: 300
             });
 
-            // Used to differ the uplaod example
+            // Used to differ the upload example
             ngJcropConfigProvider.setJcropConfig('upload', {
                 bgColor: 'black',
                 bgOpacity: .4,
@@ -39,13 +44,31 @@
                 maxHeight: 300
             });
 
+            // Used to differ the another upload example
+            ngJcropConfigProvider.setJcropConfig('another-upload', {
+                bgColor: 'black',
+                bgOpacity: .4,
+                aspectRatio: 1,
+                maxWidth: 300,
+                maxHeight: 300
+            });
+
+            // Used to differ the url example
+            ngJcropConfigProvider.setJcropConfig('url-config', {
+                bgColor: 'black',
+                bgOpacity: .4,
+                aspectRatio: 1,
+                maxWidth: 300,
+                maxHeight: 300,
+                eventName: 'blur'
+            });
         });
 
         app.controller('DemoController', function($scope){
             $scope.obj = {};
 
             // The url or the data64 for the image
-            $scope.obj.src = baseUrl + 'redpanda-640x480.jpg';
+            $scope.obj.src = '/demo/redpanda-640x480.jpg';
 
             // Must be [x, y, x2, y2, w, h]
             $scope.obj.selection = [100, 100, 200, 200, 100, 100];
@@ -58,7 +81,7 @@
             $scope.obj = {};
 
             // The url or the data64 for the image
-            $scope.obj.src = baseUrl + 'redpanda-350x427.jpg';
+            $scope.obj.src = '/demo/redpanda-350x427.jpg';
 
             // Must be [x, y, x2, y2, w, h]
             $scope.obj.selection = [100, 100, 200, 200, 100, 100];
@@ -71,7 +94,7 @@
             $scope.obj = {};
 
             // The url or the data64 for the image
-            $scope.obj.src = baseUrl + 'redpanda-200x400.jpg';
+            $scope.obj.src = '/demo/redpanda-200x400.jpg';
 
             // Must be [x, y, x2, y2, w, h]
             $scope.obj.selection = [10, 10, 110, 110, 100, 50];
@@ -84,7 +107,7 @@
             $scope.obj = {};
 
             // The url or the data64 for the image
-            $scope.obj.src = baseUrl + 'redpanda-800x480.jpg';
+            $scope.obj.src = '/demo/redpanda-800x480.jpg';
 
             // Must be [x, y, x2, y2, w, h]
             $scope.obj.selection = [10, 10, 110, 110, 100, 50];
@@ -93,7 +116,12 @@
             $scope.obj.thumbnail = true;
         });
 
-        app.controller('DemoControllerUpload', function($scope){
+        app.controller('UploadDemoController', function($scope){
+            $scope.obj  = {src:"", selection: [], thumbnail: true};
+            $scope.obj2 = {src:"", selection: [], thumbnail: true};
+        });
+
+        app.controller('UrlDemoController', function($scope){
             $scope.obj = {src:"", selection: [], thumbnail: true};
         });
 
@@ -202,11 +230,61 @@
         </div>
     </div>
 
-    <div class="row" ng-controller="DemoControllerUpload">
+    <div ng-controller="UploadDemoController">
+        <div class="row">
+            <div class="one-half column">
+                <h2>Upload an image</h2>
+                <input type="file" ng-jcrop-input="upload" />
+                <div ng-jcrop="obj.src" ng-jcrop-config-name="upload" selection="obj.selection" thumbnail="obj.thumbnail"></div>
+            </div>
+
+            <div class="one-half column">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><strong>x</strong>: <span ng-bind="obj.selection[0]"></span></td>
+                        <td><strong>y</strong>: <span ng-bind="obj.selection[1]"></span></td>
+                        <td><strong>x2</strong>: <span ng-bind="obj.selection[2]"></span></td>
+                        <td><strong>y2</strong>: <span ng-bind="obj.selection[3]"></span></td>
+                        <td><strong>w</strong>: <span ng-bind="obj.selection[4]"></span></td>
+                        <td><strong>h</strong>: <span ng-bind="obj.selection[5]"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <label><input type="checkbox" ng-model="obj.thumbnail" /> Thumbnail</label>
+            </div>
+        </div>
+
+        <div class="row" ng-controller="UploadDemoController">
+            <div class="one-half column">
+                <h2>Upload another image</h2>
+                <input type="file" ng-jcrop-input="another-upload" />
+                <div ng-jcrop="obj2.src" ng-jcrop-config-name="another-upload" selection="obj2.selection" thumbnail="obj2.thumbnail"></div>
+            </div>
+
+            <div class="one-half column">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><strong>x</strong>: <span ng-bind="obj.selection[0]"></span></td>
+                        <td><strong>y</strong>: <span ng-bind="obj.selection[1]"></span></td>
+                        <td><strong>x2</strong>: <span ng-bind="obj.selection[2]"></span></td>
+                        <td><strong>y2</strong>: <span ng-bind="obj.selection[3]"></span></td>
+                        <td><strong>w</strong>: <span ng-bind="obj.selection[4]"></span></td>
+                        <td><strong>h</strong>: <span ng-bind="obj.selection[5]"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <label><input type="checkbox" ng-model="obj.thumbnail" /> Thumbnail</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-controller="UrlDemoController">
         <div class="one-half column">
-            <h2>Upload an image</h2>
-            <input type="file" ng-jcrop-input="upload" />
-            <div ng-jcrop="obj.src" ng-jcrop-config-name="upload" selection="obj.selection" thumbnail="obj.thumbnail"></div>
+            <h2>Add by Url</h2>
+            <input type="url" ng-jcrop-input="url-config" />
+            <div ng-jcrop="obj.src" ng-jcrop-config-name="url-config" selection="obj.selection" thumbnail="obj.thumbnail"></div>
         </div>
 
         <div class="one-half column">
