@@ -98,7 +98,7 @@
 
         return {
             restrict: 'A',
-            scope: { ngJcrop: '=', thumbnail: '=', selection: '=', ngJcropConfigName: '@' },
+            scope: { ngJcrop: '=', thumbnail: '=', selection: '=', ngJcropConfigName: '@',options:'=' },
             template: ngJcropConfig.template,
             controller: 'JcropController'
         };
@@ -314,7 +314,7 @@
             var config = angular.extend({
                 onChange: $scope.showPreview,
                 onSelect: $scope.showPreview
-            }, ngJcropConfig.jcrop);
+            }, ngJcropConfig.jcrop,$scope.options);
 
             if( $scope.selection && $scope.selection.length === 6 ){
                 config.setSelect = $scope.selection;
