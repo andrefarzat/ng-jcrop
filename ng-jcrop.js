@@ -98,7 +98,7 @@
 
         return {
             restrict: 'A',
-            scope: { ngJcrop: '=', thumbnail: '=', selection: '=', ngJcropConfigName: '@',options:'=' },
+            scope: { ngJcrop: '=', thumbnail: '=', selection: '=', ngJcropConfigName: '@',options:'=',previewStyle:'=' },
             template: ngJcropConfig.template,
             controller: 'JcropController'
         };
@@ -186,7 +186,7 @@
          * @type {jQuery}
          */
         $scope.previewImg = null;
-        $scope.previewImgStyle = ngJcropConfig.previewImgStyle;
+        $scope.previewImgStyle = angular.extend(ngJcropConfig.previewImgStyle,$scope.previewStyle);
 
         /**
          * Stores the jcrop instance
