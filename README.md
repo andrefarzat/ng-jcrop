@@ -120,4 +120,18 @@ It is necessary install the `http-server`
 npm install
 ```
 
-Then you run `npm start` and access [`http://localhost:8080/demo`](http://localhost:8080/demo)
+Then you run `npm start` and access [`http://localhost:8080/demo/`](http://localhost:8080/demo/)
+
+
+### FAQ
+
+#### How to get the source of a selected image? (related issue: [#37](https://github.com/andrefarzat/ng-jcrop/issues/37))
+Once the user selects an image, the `$rootScope` broadcasts the `JcropChangeSrc` event passing
+the image (as dataURL) and the `configName`. Example:
+```js
+$scope.$on('JcropChangeSrc', function(ev, src, configName){
+    $scope.imageSrc = src; // the image as dataURL
+});
+```
+ng-jcrop uses [`FileReader.readAsDataURL`](https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
+to load the image.
