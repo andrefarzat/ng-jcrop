@@ -186,7 +186,7 @@
          * @type {jQuery}
          */
         $scope.previewImg = null;
-        $scope.previewImgStyle = angular.extend(ngJcropConfig.previewImgStyle,$scope.previewStyle);
+        $scope.previewImgStyle = angular.extend(angular.copy(ngJcropConfig.previewImgStyle), $scope.previewStyle);
 
         /**
          * Stores the jcrop instance
