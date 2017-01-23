@@ -14,7 +14,7 @@
     <script>(function(){
         if (document.location.hostname === 'localhost') {
             window.isLocal = true;
-            document.write('<scr'+'ipt src="/ng-jcrop.js"></scr'+ 'ipt>');
+            document.write('<scr'+'ipt src="/ng-jcrop.js?nocache=' + (new Date).getTime() + '"></scr'+ 'ipt>');
         } else {
             window.isLocal = false;
             document.write('<scr'+'ipt src="https://rawgit.com/andrefarzat/ng-jcrop/master/ng-jcrop.js"></scr'+ 'ipt>');
@@ -63,6 +63,15 @@
                 maxWidth: 300,
                 maxHeight: 300,
                 eventName: 'blur'
+            });
+
+            ngJcropConfigProvider.setJcropConfig('truesize-config', {
+                bgColor: 'black',
+                bgOpacity: .4,
+                aspectRatio: 1,
+                maxWidth: 300,
+                maxHeight: 300,
+                trueSize: [600, 600]
             });
         });
 
@@ -129,6 +138,19 @@
 
         app.controller('UrlDemoController', function($scope){
             $scope.obj = {src:"", selection: [], thumbnail: true};
+        });
+
+        app.controller('TrueSizeController', function($scope){
+            $scope.obj = {};
+
+            // The url or the data64 for the image
+            $scope.obj.src = getImageSrc('redpanda-600x600.jpg');
+
+            // Must be [x, y, x2, y2, w, h]
+            $scope.obj.selection = [10, 10, 110, 110, 100, 50];
+
+            // You can add a thumbnail if you want
+            $scope.obj.thumbnail = true;
         });
 
     })();
@@ -309,6 +331,30 @@
             <label><input type="checkbox" ng-model="obj.thumbnail" /> Thumbnail</label>
         </div>
     </div>
+
+    <div class="row" ng-controller="TrueSizeController">
+        <div class="one-half column">
+            <h2>TrueSize <small style="font-size: 0.6em;">(<a ng-href="{{ obj.src }}">see image</a>)</small></h2>
+            <div ng-jcrop="obj.src" ng-jcrop-config-name="truesize-config" selection="obj.selection" thumbnail="obj.thumbnail"></div>
+        </div>
+
+        <div class="one-half column">
+            <table>
+                <tbody>
+                <tr>
+                    <td><strong>x</strong>: <span ng-bind="obj.selection[0]"></span></td>
+                    <td><strong>y</strong>: <span ng-bind="obj.selection[1]"></span></td>
+                    <td><strong>x2</strong>: <span ng-bind="obj.selection[2]"></span></td>
+                    <td><strong>y2</strong>: <span ng-bind="obj.selection[3]"></span></td>
+                    <td><strong>w</strong>: <span ng-bind="obj.selection[4]"></span></td>
+                    <td><strong>h</strong>: <span ng-bind="obj.selection[5]"></span></td>
+                </tr>
+                </tbody>
+            </table>
+            <label><input type="checkbox" ng-model="obj.thumbnail" /> Thumbnail</label>
+        </div>
+    </div>
+
 </div>
 
 </body>
