@@ -293,12 +293,20 @@
 
             var rx = parseInt($scope.previewImgStyle.width) / coords.w;
             var ry = parseInt($scope.previewImgStyle.height) / coords.h;
+            
+            var width  = $scope.imgStyle.width;
+            var height = $scope.imgStyle.height;
+
+            if( Array.isArray(ngJcropConfig.jcrop.trueSize) ) {
+                width  = ngJcropConfig.jcrop.trueSize[0];
+                height = ngJcropConfig.jcrop.trueSize[1];
+            }
 
             $scope.previewImg.css({
-                width: Math.round(rx * $scope.imgStyle.width) + 'px',
-                maxWidth: Math.round(rx * $scope.imgStyle.width) + 'px',
-                height: Math.round(ry * $scope.imgStyle.height) + 'px',
-                maxHeight: Math.round(ry * $scope.imgStyle.height) + 'px',
+                width: Math.round(rx * width) + 'px',
+                maxWidth: Math.round(rx * width) + 'px',
+                height: Math.round(ry * height) + 'px',
+                maxHeight: Math.round(ry * height) + 'px',
                 marginLeft: '-' + Math.round(rx * coords.x) + 'px',
                 marginTop: '-' + Math.round(ry * coords.y) + 'px'
             });

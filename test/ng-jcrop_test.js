@@ -206,6 +206,36 @@ describe('ng-jcrop', function(){
 
             });
 
+            it('should show the right size of the preview when trueSize is passed', function() {
+                ngJcropConfigProvider.setJcropConfig({
+                    trueSize: [600, 600]
+                });
+
+                scope.previewImg = angular.element('<img width="300" height="300" />');
+
+                scope.initMainImage();
+                scope.thumbnail = true;
+
+                var coords = {x: 10, y: 10, w: 10, h: 10},
+                    rx = 100 / coords.w,
+                    ry = 100 / coords.h;
+
+                scope.showPreview(coords);
+
+                var expectedValues = {
+                    width: Math.round(rx * 600) + 'px',
+                    maxWidth: Math.round(rx * 600) + 'px',
+                    height: Math.round(ry * 600) + 'px',
+                    maxHeight: Math.round(ry * 600) + 'px',
+                    marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+                    marginTop: '-' + Math.round(ry * coords.y) + 'px'
+                };
+
+                angular.forEach(expectedValues, function(value, key){
+                    expect(scope.previewImg.css(key)).toBe(value);
+                });
+                
+            });
         });
 
         describe('destroy', function(){
