@@ -129,7 +129,7 @@ Then you run `npm start` and access [`http://localhost:8080/demo/`](http://local
 
 ### FAQ
 
-#### How to get the source of a selected image? (related issue: [#37](https://github.com/andrefarzat/ng-jcrop/issues/37))
+#### 1. How to get the source of a selected image? (related issue: [#37](https://github.com/andrefarzat/ng-jcrop/issues/37))
 Once the user selects an image, the `$rootScope` broadcasts the `JcropChangeSrc` event passing
 the image (as dataURL) and the `configName`. Example:
 ```js
@@ -141,7 +141,7 @@ ng-jcrop uses [`FileReader.readAsDataURL`](https://developer.mozilla.org/en-US/d
 to load the image.
 
 
-#### How to get the real coords to replicate the selection? (related issue: [#64](https://github.com/andrefarzat/ng-jcrop/issues/64))
+#### 2. How to get the real coords to replicate the selection? (related issue: [#64](https://github.com/andrefarzat/ng-jcrop/issues/64))
 It was added the `coords` attribute to make it possible to access the "real" coords of the selection.
 "Real" means the selection coords you see on the screen NOT the selection coords which is in `selection` attribute
 which is the coords already with the aspect ratio computed.
