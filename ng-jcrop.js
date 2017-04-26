@@ -98,7 +98,7 @@
 
         return {
             restrict: 'A',
-            scope: { ngJcrop: '=', thumbnail: '=', selection: '=', ngJcropConfigName: '@' },
+            scope: { ngJcrop: '=', thumbnail: '=?', selection: '=', coords: '=?', ngJcropConfigName: '@' },
             template: ngJcropConfig.template,
             controller: 'JcropController'
         };
@@ -168,11 +168,26 @@
         }
 
         /* Checking the mandatory attributes */
-        if( angular.isUndefined($scope.selection) ){
+        if( angular.isUndefined($scope.selection) || $scope.selection === null ){
             throw new Error('ngJcrop: attribute `selection` is mandatory');
-        } else if( !angular.isArray($scope.selection) && !($scope.selection === null)){
+        }
+        if( !angular.isArray($scope.selection) ){
             throw new Error('ngJcrop: attribute `selection` must be an array');
         }
+
+        /**
+         * The coords of current selection
+         * If not given, we copy from selection
+         * @type {Coords[]}
+         */
+        if( angular.isUndefined($scope.coords) ) {
+            $scope.coords = $scope.selection.concat([]);
+        }
+
+        if ( !angular.isArray($scope.coords) ) {
+            throw new Error('ngJcrop: if given, attribute `coords` must be an array');
+        }
+
 
         /**
          * jquery element storing the main img tag
@@ -193,12 +208,6 @@
          * @type {jCrop}
          */
         $scope.jcrop = null;
-
-        /**
-         * The coords of current selection
-         * @type {Coords[]}
-         */
-        $scope.coords = $scope.selection;
 
         /**
          * Updates the `imgStyle` with width and height
@@ -293,7 +302,7 @@
 
             var rx = parseInt($scope.previewImgStyle.width) / coords.w;
             var ry = parseInt($scope.previewImgStyle.height) / coords.h;
-            
+
             var width  = $scope.imgStyle.width;
             var height = $scope.imgStyle.height;
 

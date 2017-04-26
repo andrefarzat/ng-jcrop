@@ -90,10 +90,15 @@ describe('ng-jcrop', function(){
             };
             expect(fn).toThrow(new Error('ngJcrop: attribute `selection` is mandatory'));
 
-            var fn = function(){
+            fn = function(){
                 var div = $compile('<div ng-jcrop selection="123"></div>')(scope);
             };
             expect(fn).toThrow(new Error('ngJcrop: attribute `selection` must be an array'));
+
+            fn = function(){
+                var div = $compile('<div ng-jcrop selection="[]" coords="123"></div>')(scope);
+            };
+            expect(fn).toThrow(new Error('ngJcrop: if given, attribute `coords` must be an array'));
         }));
     });
 
@@ -234,7 +239,7 @@ describe('ng-jcrop', function(){
                 angular.forEach(expectedValues, function(value, key){
                     expect(scope.previewImg.css(key)).toBe(value);
                 });
-                
+
             });
         });
 
@@ -270,9 +275,11 @@ describe('ng-jcrop', function(){
             });
 
             it('with no selection', inject(function($compile){
-                scope.selection = null;
-                el = $compile('<div ng-jcrop="src" thumbnail="thumbnail" selection="selection"></div>')(scope);
-                ctrl = getController();
+                expect(function() {
+                    scope.selection = null;
+                    el = $compile('<div ng-jcrop="src" thumbnail="thumbnail" selection="selection"></div>')(scope);
+                    ctrl = getController();
+                }).toThrow('ngJcrop: attribute `selection` is mandatory');
             }));
 
             it('throwing an exception if gives an unknown config name', inject(function($compile){

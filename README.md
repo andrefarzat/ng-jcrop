@@ -85,8 +85,12 @@ app.controller('SomeController', function($scope){
     // The url or the data64 for the image
     $scope.obj.src = 'beautifulImage.jpg';
 
-    // Must be [x, y, x2, y2, w, h]
-    $scope.obj.coords = [100, 100, 200, 200, 100, 100];
+    // Required: The current selection coords. Must be [x, y, x2, y2, w, h]
+    $scope.obj.selection = [100, 100, 200, 200, 100, 100];
+
+    // Optional: The coords of the selection related to the screen.
+    // Use this to debug or in case you need to store the current "screen" value to replicate the same selection later
+    $scope.obj.coords = [];
 
     // You can add a thumbnail if you want
     $scope.obj.thumbnail = true;
@@ -94,10 +98,10 @@ app.controller('SomeController', function($scope){
 </script>
 
 <!-- Using the default configuration -->
-<div ng-jcrop="obj.src" selection="obj.coords" thumbnail="obj.thumbnail"></div>
+<div ng-jcrop="obj.src" selection="obj.selection" thumbnail="obj.thumbnail"></div>
 
 <!-- Using configuration name 'anotherConfig' -->
-<div ng-jcrop="obj.src" ng-jcrop-config-name="anotherConfig" selection="obj.coords" thumbnail="obj.thumbnail"></div>
+<div ng-jcrop="obj.src" ng-jcrop-config-name="anotherConfig" selection="obj.selection" thumbnail="obj.thumbnail" coords="obj.coords"></div>
 ````
 
 ### Testing
