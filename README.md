@@ -101,7 +101,7 @@ app.controller('SomeController', function($scope){
 <div ng-jcrop="obj.src" selection="obj.selection" thumbnail="obj.thumbnail"></div>
 
 <!-- Using configuration name 'anotherConfig' -->
-<div ng-jcrop="obj.src" ng-jcrop-config-name="anotherConfig" selection="obj.selection" thumbnail="obj.thumbnail" coords="obj.coords"></div>
+<div ng-jcrop="obj.src" ng-jcrop-config-name="anotherConfig" selection="obj.selection" thumbnail="obj.thumbnail"></div>
 ````
 
 ### Testing
@@ -139,3 +139,15 @@ $scope.$on('JcropChangeSrc', function(ev, src, configName){
 ```
 ng-jcrop uses [`FileReader.readAsDataURL`](https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
 to load the image.
+
+
+#### How to get the real coords to replicate the selection? (related issue: [#64](https://github.com/andrefarzat/ng-jcrop/issues/64))
+It was added the `coords` attribute to make it possible to access the "real" coords of the selection.
+"Real" means the selection coords you see on the screen NOT the selection coords which is in `selection` attribute
+which is the coords already with the aspect ratio computed.
+
+Use like this to access the `coords`:
+```html
+<div ng-jcrop="obj.src" selection="obj.selection" thumbnail="obj.thumbnail" coords="obj.coords"></div>
+```
+You can see a better example at the [demo page](http://andrefarzat.github.io/ng-jcrop/)
