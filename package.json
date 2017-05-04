@@ -1,6 +1,6 @@
 {
   "name": "ng-jcrop",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "ng-jcrop",
   "main": "ng-jcrop.js",
   "dependencies": {},
@@ -18,10 +18,10 @@
     "phantomjs": "^1.9.18"
   },
   "scripts": {
-    "postinstall": "bower install",
     "test": "karma start",
     "citest": "karma start karma.travis.conf.js",
     "serve": "echo 'Deprecated. Please use \"npm start\" instead.'",
+    "prestart": "bower install",
     "start": "http-server"
   },
   "repository": {
