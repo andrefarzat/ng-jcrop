@@ -18,10 +18,12 @@
     "phantomjs": "^1.9.18"
   },
   "scripts": {
+    "prestart": "bower install",
+    "pretest": "bower install",
+    "precitest": "bower install",
     "test": "karma start",
     "citest": "karma start karma.travis.conf.js",
     "serve": "echo 'Deprecated. Please use \"npm start\" instead.'",
-    "prestart": "bower install",
     "start": "http-server"
   },
   "repository": {
