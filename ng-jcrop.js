@@ -120,6 +120,10 @@
         var configName = $scope.ngJcropInput || 'default';
         ngJcropConfig  = ngJcropConfig[configName];
 
+        if (!ngJcropConfig) {
+            throw new Error('Unknown "' + configName + '" config name');
+        }
+
         if ($element[0].type === 'file') {
             // Treating the input[type="file"]
             $scope.onFileReaderLoad = function(ev){
