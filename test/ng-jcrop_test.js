@@ -401,6 +401,15 @@ describe('ng-jcrop', function(){
             el.trigger('change');
             expect(scope.setUrl).toHaveBeenCalledWith('/base/test/13x13.png');
         }));
+
+        it('should throw an error if config name is unknown', inject(function($rootScope, $compile){
+            var scope = $rootScope.$new();
+            var el = $compile('<input type="file" ng-jcrop-input="unknown" />')(scope);
+
+            expect(function(){
+                getController({$scope: scope, $element: el});
+            }).toThrow(new Error('Unknown "unknown" config name'));
+        }));
     });
 
 });
